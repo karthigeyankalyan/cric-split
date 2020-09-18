@@ -1,0 +1,414 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    #Search {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    button {
+        background-color: green;
+        border-color: white;
+    }
+
+    a {
+        color: white;
+    }
+
+    a:hover {
+        color: white;
+        text-decoration: none;
+    }
+
+    #demandList, #demandList2 {
+        margin-top: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 80%;
+        align-self: center;
+        justify-content: center;
+    }
+
+    #demandList2 {
+        margin-top: 60px;
+    }
+
+    #valueComparison {
+        margin-top: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        align-self: center;
+        justify-content: center;
+    }
+
+    td {
+        text-align: center;
+        align-items: center;
+        vertical-align: middle;
+    }
+
+</style>
+
+<body>
+    <div style="width: 80%; display: flex; flex-direction: row; align-items: center; justify-content: space-around; margin-top: 30px; margin-bottom: 30px">
+        <div style="margin-left: auto; margin-right: auto;">
+            <h3 id="valueComparison"></h3>
+        </div>
+    </div>
+
+
+    <input id="v1" style="display: none">
+    <input id="v2" style="display: none">
+
+    <div id="demandList">
+        <p id="yourTeam"></p>
+    </div>
+
+    <div id="demandList2">
+        <p id="algoTeam"></p>
+    </div>
+
+</body>
+
+<script>
+
+     var source = "/raw_team/{{match_id}}/{{user_id}}";
+     var source1 = "/raw_players_by_match/{{match_id}}";
+     var final_json = [];
+     var user_portfolio_value = 0;
+        $.ajax({
+            type: 'GET',
+            url: source,
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (json) {
+                console.log(json);
+                $.ajax({
+                    type: 'GET',
+                    url: source1,
+                    contentType: "application/json",
+                    dataType: 'json',
+                    success: function (jsonFunc) {
+                        console.log(jsonFunc);
+                        if (jsonFunc.length > 0) {
+                            for(var i=0; i<json.length; i++) {
+                                for(var j=0; j<jsonFunc.length; j++) {
+                                    if (parseInt(json[i]['player_id']) === jsonFunc[j]['player_id']) {
+                                        final_json.push(jsonFunc[j]);
+                                        final_json[i]['shares_purchased'] = json[i]['shares_purchased'];
+                                    }
+                                }
+                            }
+
+                            for (i=0; i< final_json.length; i++) {
+                                var final_points = 0;
+                                if (final_json[i]['player_profile'] !== "Bowler" && final_json[i]['runs_scored'] === 0) {
+                                    final_points -= 20
+                                }
+                                var runs_bonus = final_json[i]['runs_scored'];
+                                var boundary_bonus =  final_json[i]['fours']*2 + final_json[i]['fours']*3;
+                                var strike_rate = (final_json[i]['runs_scored'] / final_json[i]['balls_faced']) * 100;
+                                var sr_bonus = 0;
+                                var milestone_bonus = 0;
+
+                                if (final_json[i]['balls_faced'] >=15 || final_json[i]['runs_scored'] >=15) {
+                                    if (strike_rate < 50) {
+                                        sr_bonus = -40;
+                                    } else if (strike_rate >= 50 && strike_rate < 75) {
+                                        sr_bonus = -30;
+                                    } else if (strike_rate >= 75 && strike_rate < 100) {
+                                        sr_bonus = -30;
+                                    } else if (strike_rate >= 125 && strike_rate < 150) {
+                                        sr_bonus = 10;
+                                    } else if (strike_rate >= 150 && strike_rate < 175) {
+                                        sr_bonus = 20;
+                                    } else if (strike_rate > 175) {
+                                        sr_bonus = 30;
+                                    }
+                                }
+                                    if (runs_bonus > 100) {
+                                        milestone_bonus = 110;
+                                    } else if (runs_bonus >= 75 && runs_bonus < 100) {
+                                        milestone_bonus = 60;
+                                    } else if (runs_bonus >= 50 && runs_bonus < 75) {
+                                        milestone_bonus = 30;
+                                    } else if (runs_bonus >= 25 && runs_bonus < 50) {
+                                        milestone_bonus = 10;
+                                    }
+
+                                var wkts_bonus = parseInt(final_json[i]['wkts_taken'])*25;
+                                var maiden_bonus = parseInt(final_json[i]['maidens'])*10;
+                                var dot_bonus = parseInt(final_json[i]['dot_balls']);
+                                var econ_bonus = 0;
+                                var wkt_milestone_bonus = 0;
+
+                                if (final_json[i]['overs'] >=2) {
+                                    var rpo = final_json[i]['runs_conceded'] / final_json[i]['overs'] || 0;
+                                    if (rpo >= 10) {
+                                        econ_bonus = -20;
+                                    } else if (rpo >= 9 && rpo < 10) {
+                                        econ_bonus = -15;
+                                    } else if (rpo >= 8 && rpo < 9) {
+                                        econ_bonus = -10;
+                                    } else if (rpo >= 6 && rpo < 7) {
+                                        econ_bonus = 15;
+                                    } else if (rpo >= 5 && rpo < 6) {
+                                        econ_bonus = 20;
+                                    } else if (rpo >= 4 && rpo < 5) {
+                                        econ_bonus = 30;
+                                    } else if (rpo >= 0 && rpo < 3) {
+                                        econ_bonus = 50;
+                                    }
+                                }
+
+                                    if (final_json[i]['wkts_taken'] >= 5) {
+                                        wkt_milestone_bonus = 80;
+                                    } else if (final_json[i]['wkts_taken'] === 4) {
+                                        wkt_milestone_bonus = 60;
+                                    } else if (final_json[i]['wkts_taken'] === 3) {
+                                        wkt_milestone_bonus = 40;
+                                    } else if (final_json[i]['wkts_taken'] === 2) {
+                                        wkt_milestone_bonus = 15;
+                                    }
+                                final_points = runs_bonus + boundary_bonus + sr_bonus + milestone_bonus + wkts_bonus + maiden_bonus + dot_bonus + econ_bonus + wkt_milestone_bonus;
+                                final_json[i]['final_points'] = final_points;
+                                var reference_points = final_json[i]['value_per_share'] / 20;
+
+                                final_json[i]['new_value_per_share'] = final_json[i]['value_per_share'] + (final_points - reference_points);
+                                final_json[i]['total_value_post_game'] = final_json[i]['new_value_per_share'] * final_json[i]['shares_purchased'];
+                                final_json[i]['total_value_pre_game'] = final_json[i]['value_per_share'] * final_json[i]['shares_purchased'];
+
+                                user_portfolio_value += final_json[i]['total_value_post_game'];
+                            }
+
+                            var tbl = $("<table class='w3-table w3-bordered' id='demandDetails'/>");
+                            $("#demandList").append(tbl);
+                            var hr = "<tr class='w3-red'>";
+                            var th1 = "<th style='text-align:center;vertical-align:middle'>" + "Match ID" + "</th>";
+                            var th2 = "<th style='text-align:center;vertical-align:middle'>" + "Player" + "</th>";
+                            var th3 = "<th style='text-align:center;vertical-align:middle'>" + "Points" + "</th>";
+                            var th4 = "<th style='text-align:center;vertical-align:middle'>" + "Base Price" + "</th>";
+                            var th5 = "<th style='text-align:center;vertical-align:middle'>" + "Number of Shares" + "</th>";
+                            var th6 = "<th style='text-align:center;vertical-align:middle'>" + "Pre Game Value" + "</th>";
+                            var th7 = "<th style='text-align:center;vertical-align:middle'>" + "Post Game Value" + "</th>";
+                            $("#demandDetails").append(hr + th1 + th2 + th3 + th4 + th5 + th6 + th7);
+                            for (j = 0; j < final_json.length; j++) {
+                                var post_game_value_id = 'user'+j;
+                                var row = $('<tr></tr>').html("<td style='text-align:center;vertical-align:middle'>" + final_json[j]['match_id'] + '</td>' +
+                                    "<td style='text-align:center;vertical-align:middle'>" + final_json[j]['player_name'] + '</td>' +
+                                    "<td style='text-align:center;vertical-align:middle'>" + final_json[j]['final_points'] + '</td>' +
+                                    "<td style='text-align:center;vertical-align:middle'>" + final_json[j]['value_per_share'] + '</td>' +
+                                    "<td style='text-align:center;vertical-align:middle'>" + final_json[j]['shares_purchased'] + '</td>' +
+                                    "<td style='text-align:center;vertical-align:middle'>" + final_json[j]['total_value_pre_game'] + '</td>' +
+                                    "<td style='text-align:center;vertical-align:middle' id='"+post_game_value_id+"'>" + final_json[j]['total_value_post_game'] + '</td>');
+                                $("#demandDetails").append(row);
+                            }
+                        } else {
+                            alert('Results will be updated within 12 hours of game completion.')
+                        }
+                    },
+                    complete: function (e) {
+                        post_ajax(user_portfolio_value);
+                        },
+                    error: function (e) {
+                        alert("Results will be available the day after the game is played.");
+                    }
+                });
+            },
+            error: function (e) {
+                alert("error");
+            }
+        });
+
+        function post_ajax(user_value) {
+            document.getElementById('yourTeam').innerHTML = "Your Team - Post Game Portfolio Value - "+ user_value + " INR";
+            document.getElementById('v1').value = user_value;
+        }
+
+     var src = "/raw_team/{{match_id}}/44a3e0ec749347668b82a0b1836c480b";
+     var src1 = "/raw_players_by_match/{{match_id}}";
+     var final_json_algo = [];
+     var algo_portfolio_value = 0;
+        $.ajax({
+            type: 'GET',
+            url: src,
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (json) {
+                console.log(json);
+                $.ajax({
+                    type: 'GET',
+                    url: src1,
+                    contentType: "application/json",
+                    dataType: 'json',
+                    success: function (jsonFunc) {
+                        console.log(jsonFunc);
+                        if (jsonFunc.length > 0) {
+                            for(var i=0; i<json.length; i++) {
+                                for(var j=0; j<jsonFunc.length; j++) {
+                                    if (parseInt(json[i]['player_id']) === jsonFunc[j]['player_id']) {
+                                        final_json_algo.push(jsonFunc[j]);
+                                        final_json_algo[i]['shares_purchased'] = json[i]['shares_purchased'];
+                                    }
+                                }
+                            }
+
+                            for (i=0; i< final_json_algo.length; i++) {
+                                var final_points = 0;
+                                if (final_json_algo[i]['player_profile'] !== "Bowler" && final_json_algo[i]['runs_scored'] === 0) {
+                                    final_points -= 20
+                                }
+                                var runs_bonus = final_json_algo[i]['runs_scored'];
+                                var boundary_bonus =  final_json_algo[i]['fours']*2 + final_json_algo[i]['fours']*3;
+                                var strike_rate = (final_json_algo[i]['runs_scored'] / final_json_algo[i]['balls_faced']) * 100;
+                                var sr_bonus = 0;
+                                var milestone_bonus = 0;
+
+                                if (final_json_algo[i]['balls_faced'] >=15 || final_json_algo[i]['runs_scored'] >=15) {
+                                    if (strike_rate < 50) {
+                                        sr_bonus = -40;
+                                    } else if (strike_rate >= 50 && strike_rate < 75) {
+                                        sr_bonus = -30;
+                                    } else if (strike_rate >= 75 && strike_rate < 100) {
+                                        sr_bonus = -30;
+                                    } else if (strike_rate >= 125 && strike_rate < 150) {
+                                        sr_bonus = 10;
+                                    } else if (strike_rate >= 150 && strike_rate < 175) {
+                                        sr_bonus = 20;
+                                    } else if (strike_rate > 175) {
+                                        sr_bonus = 30;
+                                    }
+                                }
+                                    if (runs_bonus > 100) {
+                                        milestone_bonus = 110;
+                                    } else if (runs_bonus >= 75 && runs_bonus < 100) {
+                                        milestone_bonus = 60;
+                                    } else if (runs_bonus >= 50 && runs_bonus < 75) {
+                                        milestone_bonus = 30;
+                                    } else if (runs_bonus >= 25 && runs_bonus < 50) {
+                                        milestone_bonus = 10;
+                                    }
+
+                                var wkts_bonus = parseInt(final_json_algo[i]['wkts_taken'])*25;
+                                var maiden_bonus = parseInt(final_json_algo[i]['maidens'])*10;
+                                var dot_bonus = parseInt(final_json_algo[i]['dot_balls']);
+                                var econ_bonus = 0;
+                                var wkt_milestone_bonus = 0;
+
+                                if (final_json_algo[i]['overs'] >=2) {
+                                    var rpo = final_json_algo[i]['runs_conceded'] / final_json_algo[i]['overs'] || 0;
+                                    if (rpo >= 10) {
+                                        econ_bonus = -20;
+                                    } else if (rpo >= 9 && rpo < 10) {
+                                        econ_bonus = -15;
+                                    } else if (rpo >= 8 && rpo < 9) {
+                                        econ_bonus = -10;
+                                    } else if (rpo >= 6 && rpo < 7) {
+                                        econ_bonus = 15;
+                                    } else if (rpo >= 5 && rpo < 6) {
+                                        econ_bonus = 20;
+                                    } else if (rpo >= 4 && rpo < 5) {
+                                        econ_bonus = 30;
+                                    } else if (rpo >= 0 && rpo < 3) {
+                                        econ_bonus = 50;
+                                    }
+                                }
+
+                                    if (final_json_algo[i]['wkts_taken'] >= 5) {
+                                        wkt_milestone_bonus = 80;
+                                    } else if (final_json_algo[i]['wkts_taken'] === 4) {
+                                        wkt_milestone_bonus = 60;
+                                    } else if (final_json_algo[i]['wkts_taken'] === 3) {
+                                        wkt_milestone_bonus = 40;
+                                    } else if (final_json_algo[i]['wkts_taken'] === 2) {
+                                        wkt_milestone_bonus = 15;
+                                    }
+                                final_points = runs_bonus + boundary_bonus + sr_bonus + milestone_bonus + wkts_bonus + maiden_bonus + dot_bonus + econ_bonus + wkt_milestone_bonus;
+                                final_json_algo[i]['final_points'] = final_points;
+                                var reference_points = final_json_algo[i]['value_per_share'] / 20;
+
+                                final_json_algo[i]['new_value_per_share'] = final_json_algo[i]['value_per_share'] + (final_points - reference_points);
+                                final_json_algo[i]['total_value_post_game'] = final_json_algo[i]['new_value_per_share'] * final_json_algo[i]['shares_purchased'];
+                                final_json_algo[i]['total_value_pre_game'] = final_json_algo[i]['value_per_share'] * final_json_algo[i]['shares_purchased'];
+                                algo_portfolio_value += final_json_algo[i]['total_value_post_game'];
+                            }
+
+                            var tbl = $("<table class='w3-table w3-bordered' id='demandDetails2'/>");
+                            $("#demandList2").append(tbl);
+                            var hr = "<tr class='w3-red'>";
+                            var th1 = "<th style='text-align:center;vertical-align:middle'>" + "Match ID" + "</th>";
+                            var th2 = "<th style='text-align:center;vertical-align:middle'>" + "Player" + "</th>";
+                            var th3 = "<th style='text-align:center;vertical-align:middle'>" + "Points" + "</th>";
+                            var th4 = "<th style='text-align:center;vertical-align:middle'>" + "Base Price" + "</th>";
+                            var th5 = "<th style='text-align:center;vertical-align:middle'>" + "Number of Shares" + "</th>";
+                            var th6 = "<th style='text-align:center;vertical-align:middle'>" + "Pre Game Value" + "</th>";
+                            var th7 = "<th style='text-align:center;vertical-align:middle'>" + "Post Game Value" + "</th>";
+                            $("#demandDetails2").append(hr + th1 + th2 + th3 + th4 + th5 + th6 + th7);
+                            for (j = 0; j < final_json_algo.length; j++) {
+                                var post_game_value_id_algo = 'algo'+j;
+                                var row = $('<tr></tr>').html("<td style='text-align:center;vertical-align:middle'>" + final_json_algo[j]['match_id'] + '</td>' +
+                                    "<td style='text-align:center;vertical-align:middle'>" + final_json_algo[j]['player_name'] + '</td>' +
+                                    "<td style='text-align:center;vertical-align:middle'>" + final_json_algo[j]['final_points'] + '</td>' +
+                                    "<td style='text-align:center;vertical-align:middle'>" + final_json_algo[j]['value_per_share'] + '</td>' +
+                                    "<td style='text-align:center;vertical-align:middle'>" + final_json_algo[j]['shares_purchased'] + '</td>' +
+                                    "<td style='text-align:center;vertical-align:middle'>" + final_json_algo[j]['total_value_pre_game'] + '</td>' +
+                                    "<td style='text-align:center;vertical-align:middle' id='"+post_game_value_id_algo+"'>" + final_json_algo[j]['total_value_post_game'] + '</td>');
+                                $("#demandDetails2").append(row);
+                            }
+                        }
+                    },
+                    complete: function (e) {
+                        post_ajax2(algo_portfolio_value);
+                        },
+                    error: function (e) {
+                        alert("error");
+                    }
+                });
+            },
+            error: function (e) {
+                alert("error");
+            }
+        });
+
+        function post_ajax2(user_value) {
+            document.getElementById('algoTeam').innerHTML = "ComputerJi's Team - Post Game Portfolio Value - "+ user_value + " INR";
+            document.getElementById('v2').value = user_value;
+            var user_pf_value = parseInt(document.getElementById('v1').value);
+            var algo_pf_value = parseInt(user_value);
+
+            if (user_pf_value >= algo_pf_value && algo_pf_value !==0) {
+                document.getElementById('valueComparison').innerHTML = "You beat Computer-Ji by "+(user_pf_value-algo_pf_value)+" INR";
+            } else if (user_pf_value < algo_pf_value) {
+                document.getElementById('valueComparison').innerHTML = "You lost to Computer-Ji by "+(algo_pf_value - user_pf_value)+" INR";
+            } else {
+                document.getElementById('valueComparison').innerHTML = "Game Data has not been updated yet.";
+            }
+        }
+
+        function myFunction() {
+            var input, filter, table, tr, td, i;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("demandList");
+            tr = table.getElementsByTagName("tr");
+            console.log(tr.length);
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+</script>
+
+{% endblock %}

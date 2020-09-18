@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    #Search {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    button {
+        background-color: green;
+        border-color: white;
+    }
+
+    a {
+        color: white;
+    }
+
+    a:hover {
+        color: white;
+        text-decoration: none;
+    }
+
+    #demandList {
+        margin-top: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 80%;
+        align-self: center;
+        justify-content: center;
+    }
+
+    td {
+        text-align: center;
+        align-items: center;
+        vertical-align: middle;
+    }
+
+</style>
+
+<body>
+    <div style="width: 1400px; display: flex; flex-direction: row; align-items: center; justify-content: space-around; margin-top: 30px; margin-bottom: 30px">
+        <div id="Search" style="flex: 4; align-items: center; flex-direction: row; display: flex; justify-content: space-around">
+            <img src="https://cdn.iconscout.com/icon/free/png-256/cricket-playground-1845443-1564860.png" style="height: 50px; width: 50px">
+            <h3>{{team1}} v/s {{team2}}</h3>
+        </div>
+        <div style="flex: 1">
+        </div>
+        <div style="flex: 6">
+            <label for="myInput">Search by Player</label>
+            <input type="text" style="width: 400px;" id="myInput" onkeyup="myFunction()" placeholder="Search for players" title="Type in a name">
+        </div>
+        <div style="flex: 1">
+        </div>
+        <div id="budget" style="flex: 3; align-items: center; flex-direction: row; display: flex; justify-content: space-around">
+            <img src="https://cdn.iconscout.com/icon/free/png-256/wallet-105-107453.png" style="height: 50px; width: 50px">
+            <h3 id="budRemaining"></h3>
+        </div>
+    </div>
+
+    <form id="purchaseForm" action="/ViewMarket/{{team1}}/{{team2}}/{{match_id}}" method="post">
+        <div id="purchaseDetails" style="display: none;">
+        </div>
+
+        <input type="number" style="display: none" id="numPlayers" name="numPlayers">
+
+        <div style="margin: 0; position: relative; top: 50%; left: 50%;">
+            <button style="justify-content: center; align-self: center; color: white" onclick="alertPurchase()">Confirm</button>
+        </div>
+    </form>
+
+    <div id="demandList">
+    </div>
+
+
+</body>
+
+<script>
+
+    document.getElementById('budRemaining').innerHTML = "Purse: "+ parseInt("{{user.budget_remaining}}").toFixed(0) + " INR";
+
+     var source_check = "/raw_team/{{match_id}}/{{user._id}}";
+        $.ajax({
+            type: 'GET',
+            url: source_check,
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (json) {
+                if (json.length > 0) {
+                    alert('You have already picked a team for this game. Picking another team will erase your previous entry.')
+                }
+            },
+            error: function (e) {
+                alert("error");
+            }
+        });
+
+
+        var source = "/raw_market_list/{{team1}}/{{team2}}";
+        $.ajax({
+            type: 'GET',
+            url: source,
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (json) {
+                console.log(json);
+                var tbl = $("<table class='w3-table w3-bordered' id='demandDetails'/>");
+                $("#demandList").append(tbl);
+                var hr = "<tr class='w3-red'>";
+                var th1 = "<th style='text-align:center;vertical-align:middle'>" + "Player ID" + "</th>";
+                var th2 = "<th style='text-align:center;vertical-align:middle'>" + "Player Name" + "</th>";
+                var th3 = "<th style='text-align:center;vertical-align:middle'>" + "Team" + "</th>";
+                var th4 = "<th style='text-align:center;vertical-align:middle'>" + "Player Role" + "</th>";
+                var th5 = "<th style='text-align:center;vertical-align:middle'>" + "Value Per Share" + "</th>";
+                var th6 = "<th style='text-align:center;vertical-align:middle'>" + "Max Share Cap" + "</th>";
+                var th7 = "<th style='text-align:center;vertical-align:middle'>" + "Number of Shares" + "</th>";
+                var th8 = "<th style='text-align:center;vertical-align:middle'>" + "Total Value" + "</th>";
+                $("#demandDetails").append(hr + th1 + th2 + th3 + th4 + th5 + th6 + th7 + th8);
+                for (var j = 0; j < json.length; j++) {
+                    var url = '/buy_player/' + json[j]['ID'];
+                    var tot_val_var = 'totValue'+j;
+                    var base_price_var = 'bPrice'+j;
+                    var max_share_var = 'mShare'+j;
+                    var player_var = 'player'+j;
+                    var id_var = 'id'+j;
+                    var row = $('<tr></tr>').html("<td style='text-align:center;vertical-align:middle' id='"+id_var+"'>" +
+                        +parseInt(json[j]["ID"]) + '</td>' +
+                        "<td style='text-align:center;vertical-align:middle' id='"+player_var+"'>" + json[j]['Player'] + '</td>' +
+                        "<td style='text-align:center;vertical-align:middle'>" + json[j]['Team'] + '</td>' +
+                        "<td style='text-align:center;vertical-align:middle'>" + json[j]['Category'] + '</td>' +
+                        "<td style='text-align:center;vertical-align:middle' id='"+base_price_var+"'>" + json[j]["Base price"] + '</td>' +
+                        "<td style='text-align:center;vertical-align:middle' id='"+max_share_var+"'>" + json[j]["max_share_cap"] + '</td>' +
+//                        '<td><button class="btn btn-default"><a href="' + url + '">' + 'Buy Shares' + '</a></button></td>');
+                        "<td style='text-align:center;vertical-align:middle;'><input type='number' min='0' max='"+json[j]["max_share_cap"]+"' onchange='populateTotal(this, "+json.length+")' name='numShares' id='"+j+"'></td>"+
+                        "<td style='text-align:center;vertical-align:middle'><input type='number'  max='"+json[j]["max_share_cap"]*json[j]["Base price"]+"' name='"+tot_val_var+"' id='"+tot_val_var+"' readonly></td>");
+                    $("#demandDetails").append(row);
+                }
+            },
+            error: function (e) {
+                alert("error");
+            }
+        });
+
+        function populateTotal(that, length) {
+            var base_price_var = 'bPrice'+that.id;
+            var max_share_var = 'mShare'+that.id;
+            var tot_var = 'totValue'+that.id;
+            var player_var = 'player'+that.id;
+            var bPrice = parseInt(document.getElementById(base_price_var).innerHTML);
+            var mShare = parseInt(document.getElementById(max_share_var).innerHTML);
+            var player = document.getElementById(player_var).innerHTML;
+            if (that.value > mShare) {
+                alert('Exceeding the max share cap for '+player);
+            } else {
+                document.getElementById(tot_var).value = that.value * bPrice;
+            }
+
+            var total_purchased_shares;
+            var total_purchased_value = 0;
+            var player_counter = 0;
+            var purchase_det = $("#purchaseDetails");
+            purchase_det.empty();
+
+            for (var i = 0; i < length; i++) {
+                var base_price_loop_var = parseInt(document.getElementById('bPrice'+i).innerHTML);
+                var num_shares_loop_var = parseInt(document.getElementById(i).value) || 0;
+                total_purchased_value += base_price_loop_var * num_shares_loop_var;
+
+                if (num_shares_loop_var !== 0) {
+                    player_counter++;
+                    var player_id = document.getElementById('id'+i).innerHTML;
+                    var player_name = document.getElementById('player'+i).innerHTML;
+                    var player_id_var = "id_form_var"+(player_counter-1);
+                    var player_name_var = "player_form_var"+(player_counter-1);
+                    var num_shares_form_var = "num_shares_form_var"+(player_counter-1);
+                    var row = $('<div style="display: none;"></div>')
+                        .html(
+                            '<div style="display: flex;">' +
+                            '<input class="amount" type="number" id='+player_id_var+' name='+player_id_var+' value='+(player_id)+'>' +
+                            '<input class="amount" type="number" id='+num_shares_form_var+' name='+num_shares_form_var+' value='+(num_shares_loop_var)+'>' +
+                            '<input class="amount" type="text" id='+player_name_var+' name='+player_name_var+'>' +
+                            '</div>');
+                    purchase_det.append(row);
+                    document.getElementById(player_name_var).value = player_name;
+                    document.getElementById('numPlayers').value = player_counter;
+                }
+            }
+            document.getElementById('budRemaining').innerHTML = "Purse: "+ (parseInt(parseInt("{{user.budget_remaining}}").toFixed(0)) - parseInt(total_purchased_value)) + " INR";
+        }
+
+        function alertPurchase() {
+            var jsonArr = [];
+            var num_players = parseInt(document.getElementById('numPlayers').value);
+            var total_shares = 0;
+
+            for (var i = 0; i < num_players; i++) {
+            var player_id_var = "id_form_var"+i;
+            var player_name_var = "player_form_var"+i;
+            var num_shares_form_var = "num_shares_form_var"+i;
+            total_shares += parseInt(document.getElementById(num_shares_form_var).value);
+                jsonArr.push({
+                    player_id: document.getElementById(player_id_var).value,
+                    name: document.getElementById(player_name_var).value,
+                    num_shares: document.getElementById(num_shares_form_var).value
+                });
+            }
+            var result = confirm("Do you want to confirm purchase of " +total_shares+" shares?" );
+            if ( result ) {
+                document.getElementById('purchaseForm').submit();
+            }
+        }
+
+        function myFunction() {
+            var input, filter, table, tr, td, i;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("demandList");
+            tr = table.getElementsByTagName("tr");
+            console.log(tr.length);
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+</script>
+
+{% endblock %}

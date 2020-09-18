@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <style>
+      html, body {
+      min-height: 100%;
+      }
+
+      input {
+      width: calc(100% - 20px);
+      padding: 5px;
+      }
+
+      h2 {
+          text-align: center;
+          margin-top: 30px;
+      }
+
+      form {
+          align-items: center;
+          justify-content: center;
+          align-self: center;
+          margin-right: 20%;
+          margin-left: 20%;
+      }
+
+      input[type="date"] {
+      width: calc(50%);
+      padding: 5px;
+      }
+
+      select {
+      width: 100%;
+      padding: 7px 0;
+      }
+
+      input:hover, select:hover, textarea:hover, .preferred-metod label:hover input {
+      box-shadow: 0 0 5px 0 #095484;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="testbox">
+      <form action="/add_footfall_entry/{{user._id}}" method="post">
+        <h2>Tourist Footfall Entry</h2>
+          <div>
+              <p>Select District</p>
+              <select class="form-control" style="text-align: center;" id="district" name="district">
+                    <option value= "{{district}}">{{district}}</option>
+              </select>
+          </div>
+          <div style="margin-top: 20px">
+              <p>Select Destination</p>
+              <select class="destinationPicker" id="destination" name="destination" style="display: block;"></select>
+          </div>
+          <!--<p>First date on which the events or issues occurred</p>-->
+          <div style="margin-top: 20px">
+              <p>Date of Entry</p>
+              <input type="date" name="monthyear" id="monthyear" required/>
+          </div>
+          <div style="display: flex; flex-direction: row; margin-top: 20px">
+              <div style="display: flex; flex-direction: column;">
+                  <p>Domestic Tourists</p>
+                  <input type="number" name="domestic" id="domestic">
+              </div>
+              <div style="display: flex; flex-direction: column;">
+                  <p>Foreign Tourists</p>
+                  <input type="number" name="foreign" id="foreign">
+              </div>
+          </div>
+
+        <div style="margin-top: 15px">
+            <button style="background-color: rgba(112, 0, 226, 0.9); border-color: white" class="btn btn-success">Save</button>
+        </div>
+
+      </form>
+    </div>
+
+{% endblock %}

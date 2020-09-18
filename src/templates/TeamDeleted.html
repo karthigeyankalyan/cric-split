@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    button{
+        display: inline-block;
+    }
+
+    img{
+        width:100px;
+        height:100px;
+    }
+
+    #logged{
+        text-align: center;
+    }
+
+    #logged span{
+        color: green;
+        font-size: 50px;
+    }
+</style>
+
+<div id="logged">
+    <p> <span id="Success"> Your team has been deleted! </span> </p>
+    <p><img src="https://images.vexels.com/media/users/3/157931/isolated/preview/604a0cadf94914c7ee6c6e552e9b4487-curved-check-mark-circle-icon-by-vexels.png"></p>
+
+    <h6>Click below to choose a different set of players</h6>
+
+    <a href="/profile"><button class="btn btn-success">Choose Again</button></a>
+
+</div>
+
+{% endblock %}
