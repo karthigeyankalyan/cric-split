@@ -1,14 +1,6 @@
-import datetime
-from datetime import datetime
-
-import pandas
 from bson import json_util, ObjectId
 from flask import Flask, render_template, request, session, json
-from pandas.io.json import json_normalize
-
-from src.models.match import Match
 from src.models.user import User
-from src.models.player import Player
 from src.common.database import Database
 from src.models.teams import Team
 
