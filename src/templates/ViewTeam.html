@@ -52,7 +52,7 @@
         </div>
         <div style="flex: 1">
         </div>
-        <div style="margin: 0; position: relative; top: 50%; left: 50%;">
+        <div style="margin: 0; position: relative; top: 50%; left: 50%;" id="reselectButton">
             <button style="color: white" onclick="reselectTeam()">Reselect Team</button>
         </div>
     </div>
@@ -64,6 +64,11 @@
 </body>
 
 <script>
+
+    if ("{{user_id}}" === "a7dd4b5335274c7e85afc79bfa251f89") {
+        document.getElementById('reselectButton').style.display = none;
+    }
+
      var source = "/raw_team/{{match_id}}/{{user_id}}";
         $.ajax({
             type: 'GET',
