@@ -1,4 +1,5 @@
 Flask==0.12.3
 pymongo==3.11.0
 requests==2.8.0
+mongo[srv]
 uwsgi
