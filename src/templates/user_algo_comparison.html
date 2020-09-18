@@ -231,6 +231,7 @@
         }
 
      var src = "/raw_team/{{match_id}}/a7dd4b5335274c7e85afc79bfa251f89";
+//     var src = "/raw_team/{{match_id}}/44a3e0ec749347668b82a0b1836c480b";
      var src1 = "/raw_players_by_match/{{match_id}}";
      var final_json_algo = [];
      var algo_portfolio_value = 0;
@@ -253,7 +254,6 @@
                                 for(var j=0; j<jsonFunc.length; j++) {
                                     if (parseInt(json[i]['player_id']) === jsonFunc[j]['player_id']) {
                                         final_json_algo.push(jsonFunc[j]);
-                                        console.log(i, json[i]);
                                         final_json_algo[i]['shares_purchased'] = json[i]['shares_purchased'];
                                     }
                                 }
