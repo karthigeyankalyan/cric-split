@@ -19,6 +19,14 @@ def home_page():
     return render_template('login.html')
 
 
+@app.route('/logout')
+def logout():
+    email = session['email']
+    user = User.get_by_email(email)
+    user.logout()
+    return render_template('login.html')
+
+
 @app.route('/register')
 def register_form():
     return render_template('register.html')
