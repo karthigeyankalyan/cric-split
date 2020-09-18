@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600');
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css');
+
+    button {
+    background-color: rgba(112, 0, 226, 0.9);
+    border-color: white;
+    color: white;
+    height: 60px;
+  }
+
+
+    * {
+  font-family: 'Open Sans', sans-serif;
+  font-size:12px;
+}
+
+body {
+    background-color:#ececec;
+}
+
+.container {
+    margin: 50px 0 0 50px;
+}
+
+.tile {
+  width:350px;
+  height:140px;
+  border-radius:4px;
+  box-shadow: 2px 2px 4px 0 rgba(0,0,0,0.15);
+  margin-top:20px;
+  float:left;
+}
+
+.tile.wide {
+  width: 500px;
+}
+
+.tile .header {
+  height:120px;
+  background-color:#f4f4f4;
+  border-radius: 4px 4px 0 0;
+  color:white;
+  font-weight:300;
+}
+
+.tile.wide .header .left, .tile.wide .header .right {
+  width:160px;
+  float:left;
+}
+
+.tile .header .count {
+  font-size: 24px;
+  text-align:center;
+  padding:10px 0 0;
+}
+
+.tile .header .title {
+  font-size: 20px;
+  text-align:center;
+}
+
+.sub {
+    font-size: 14px;
+    text-align: left;
+    color: black;
+    font-weight: bold;
+}
+
+
+
+.tile .body {
+  height:40px;
+  border-radius: 0 0 4px 4px;
+  color:#333333;
+  background-color:white;
+}
+
+.tile .body .title {
+    text-align:center;
+    font-size:16px;
+    padding-top:2%;
+}
+
+.tile.wide .body .title {
+  padding:4%;
+}
+
+.tile.job .header {
+  background: linear-gradient(to bottom right, #DC1C13, #EA4C46);
+    font-weight: 500;
+}
+
+.tile.job  .body{
+  color: #DC1C13;
+}
+
+a {
+  color: #DC1C13;
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #333333;
+}
+
+.tile.resource .header {
+  background: linear-gradient(to bottom right, #DC1C13, #EA4C46);
+}
+
+.tile.resource  .body {
+  color: green;
+}
+
+.tile.quote .header {
+  background: linear-gradient(to bottom right, #1f6abb, #4f9cf2);
+}
+
+.tile.quote  .body {
+  color: #1f6abb;
+}
+
+.tile.invoice .header {
+  background: linear-gradient(to bottom right, #0aa361, #1adc88);
+}
+
+.tile.invoice  .body {
+    color: #0aa361;
+}
+
+<!-- Adding all new css here -->
+
+#mvdvisits1{
+	font-style:bold;
+}
+
+#info_page_blocks1, #info_page_blocks2, #info_page_blocks3 {
+	height:300px;
+	background-color:#c30d0d;
+}
+
+#info_page_desc{
+	color:white;
+}
+
+#step-icon{
+}
+
+#step-instructions,  #step-instructions1, #step-instructions2{
+    height: 20%;
+    padding-left: 10%;
+	color:white;
+}
+
+
+</style>
+
+<div style="flex-direction: column; align-items: center; justify-content: space-around; display: flex;">
+
+    <div id="username">
+        <h4>How to Play Cric / Split</h4>
+    </div>
+
+    <div style="flex-direction: row; align-items: center; justify-content: space-around; display: flex; width: 100%">
+        <div class="container">
+          <div class="tile job">
+            <div class="header" id="info_page_blocks1">
+				<div id="mvdvisits1" class="count">Step 1</div></br>
+              <div id="step-icon" class="count"><img src="https://i.ibb.co/5Fv889q/icon1.png" alt="Collect your coins" width="100" height="100"/></br>
+			  <div id="step-instructions" class="sub">You pay 50 rupees to enter into the contest. We credit 8,00,000 coins in your account before every match.</div>
+			  </div></br>
+             
+			  <div id="demo" class="sub"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="container">
+          <div class="tile job">
+            <div class="header" id="info_page_blocks2">
+              <div id="mvdvisits" class="count">Step 2</div></br>
+              <div id="step-icon" class="count"><img src="https://i.ibb.co/F5B0rSX/icon2.png"
+                                                     alt="Invest in players of choice" width="175" height="100"/></br>
+			  <div id="step-instructions1" class="sub"">Choose a match and invest in players of your choice</div>
+			  </div>
+              <div id="demo1" class="sub"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="container">
+          <div class="tile job">
+            <div class="header" id="info_page_blocks3">
+              <div id="mvdvisits" class="count">Step 3</div></br>
+              <div id="step-icon" class="count"> <img src="https://i.ibb.co/KmxjtQm/icon3.png" alt="win 2x" width="100" height="100"></br>
+			  <div id="step-instructions2" class="sub">If you win against our team, you earn 100 rupees</div>
+			  </div>
+              <div id="demo2" class="sub"></div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

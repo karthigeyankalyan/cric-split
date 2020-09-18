@@ -24,6 +24,13 @@ def register_form():
     return render_template('register.html')
 
 
+@app.route('/how_to_play')
+def how_to_play():
+    email = session['email']
+    user = User.get_by_email(email)
+    return render_template('profile1.html', user=user)
+
+
 @app.route('/authorize/login', methods=['POST'])
 def login_user():
     email = request.form['user']
