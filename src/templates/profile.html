@@ -23,7 +23,7 @@ body {
 }
 
 .container {
-  margin: 50px 0 0 100px;
+  margin: 50px 0 0 50px;
 }
 
 .tile {
@@ -158,7 +158,7 @@ a:hover {
                           View Team
                       </a>
                       <b>|</b>
-                      <a href="/view_team/1301/44a3e0ec749347668b82a0b1836c480b">
+                      <a href="/view_team/1301/a7dd4b5335274c7e85afc79bfa251f89">
                           ComputerJi's Team
                       </a>
                   </span>
@@ -186,7 +186,7 @@ a:hover {
                           View Team
                       </a>
                       <b>|</b>
-                      <a href="/view_team/1302/44a3e0ec749347668b82a0b1836c480b">
+                      <a href="/view_team/1302/a7dd4b5335274c7e85afc79bfa251f89">
                           ComputerJi's Team
                       </a>
                   </span>
@@ -214,7 +214,7 @@ a:hover {
                           View Team
                       </a>
                       <b>|</b>
-                      <a href="/view_team/1303/44a3e0ec749347668b82a0b1836c480b">
+                      <a href="/view_team/1303/a7dd4b5335274c7e85afc79bfa251f89">
                           ComputerJi's Team
                       </a>
                   </span>
@@ -262,8 +262,7 @@ a:hover {
 
 <script>
     // Set the date we're counting down to
-var countDownDate = new Date("Sept 19, 2020 19:30:00").getTime();
-
+var countDownDate = new Date("Sept 19, 2020 18:30:00").getTime();
 // Update the count down every 1 second
 var x = setInterval(function() {
 
@@ -282,9 +281,9 @@ var x = setInterval(function() {
   // Output the result in an element with id="demo"
   document.getElementById("demo").innerHTML = days + "d " + hours + "h "
   + minutes + "m " + seconds + "s ";
-  document.getElementById("demo1").innerHTML = days + "d " + hours + "h "
+  document.getElementById("demo1").innerHTML = (days + 1) + "d " + hours + "h "
   + minutes + "m " + seconds + "s ";
-  document.getElementById("demo2").innerHTML = days + "d " + hours + "h "
+  document.getElementById("demo2").innerHTML = (days + 2) + "d " + hours + "h "
   + minutes + "m " + seconds + "s ";
 
   // If the count down is over, write some text
