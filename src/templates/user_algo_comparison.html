@@ -253,6 +253,7 @@
                                 for(var j=0; j<jsonFunc.length; j++) {
                                     if (parseInt(json[i]['player_id']) === jsonFunc[j]['player_id']) {
                                         final_json_algo.push(jsonFunc[j]);
+                                        console.log(i, json[i]);
                                         final_json_algo[i]['shares_purchased'] = json[i]['shares_purchased'];
                                     }
                                 }
