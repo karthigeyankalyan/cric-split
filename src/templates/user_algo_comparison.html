@@ -81,6 +81,7 @@
      var source1 = "/raw_players_by_match/{{match_id}}";
      var final_json = [];
      var user_portfolio_value = 0;
+     var user_pregame_value = 0
         $.ajax({
             type: 'GET',
             url: source,
@@ -183,6 +184,7 @@
                                 final_json[i]['total_value_post_game'] = final_json[i]['new_value_per_share'] * final_json[i]['shares_purchased'];
                                 final_json[i]['total_value_pre_game'] = final_json[i]['value_per_share'] * final_json[i]['shares_purchased'];
 
+                                user_pregame_value += final_json[i]['total_value_pre_game'];
                                 user_portfolio_value += final_json[i]['total_value_post_game'];
                             }
 
@@ -213,7 +215,7 @@
                         }
                     },
                     complete: function (e) {
-                        post_ajax(user_portfolio_value);
+                        post_ajax(user_portfolio_value, user_pregame_value);
                         },
                     error: function (e) {
                         alert("Results will be available the day after the game is played.");
@@ -225,8 +227,8 @@
             }
         });
 
-        function post_ajax(user_value) {
-            document.getElementById('yourTeam').innerHTML = "Your Team - Post Game Portfolio Value - "+ user_value + " INR";
+        function post_ajax(user_value, user_pregame_value) {
+            document.getElementById('yourTeam').innerHTML = "Your Team - Final Portfolio Value - "+ (parseInt(user_value) + (700000 - parseInt(user_pregame_value))) + " INR";
             document.getElementById('v1').value = user_value;
             var user_pf_value = parseInt(document.getElementById('v1').value);
             var algo_pf_value = parseInt(user_value);
@@ -245,6 +247,7 @@
      var src1 = "/raw_players_by_match/{{match_id}}";
      var final_json_algo = [];
      var algo_portfolio_value = 0;
+     var algo_pregame_value = 0;
         $.ajax({
             type: 'GET',
             url: src,
@@ -346,7 +349,9 @@
                                 final_json_algo[i]['new_value_per_share'] = final_json_algo[i]['value_per_share'] + (final_points - reference_points);
                                 final_json_algo[i]['total_value_post_game'] = final_json_algo[i]['new_value_per_share'] * final_json_algo[i]['shares_purchased'];
                                 final_json_algo[i]['total_value_pre_game'] = final_json_algo[i]['value_per_share'] * final_json_algo[i]['shares_purchased'];
+
                                 algo_portfolio_value += final_json_algo[i]['total_value_post_game'];
+                                algo_pregame_value += final_json_algo[i]['total_value_pre_game'];
                             }
 
                             var tbl = $("<table class='w3-table w3-bordered' id='demandDetails2'/>");
@@ -374,7 +379,7 @@
                         }
                     },
                     complete: function (e) {
-                        post_ajax2(algo_portfolio_value);
+                        post_ajax2(algo_portfolio_value, algo_pregame_value);
                         },
                     error: function (e) {
                         alert("error");
@@ -386,8 +391,8 @@
             }
         });
 
-        function post_ajax2(user_value) {
-            document.getElementById('algoTeam').innerHTML = "ComputerJi's Team - Post Game Portfolio Value - "+ user_value + " INR";
+        function post_ajax2(user_value, user_pregame_value) {
+            document.getElementById('algoTeam').innerHTML = "ComputerJi's Team - Final Portfolio Value - " + (parseInt(user_value) + (700000 - parseInt(user_pregame_value))) + " INR";
             document.getElementById('v2').value = user_value;
             var user_pf_value = parseInt(document.getElementById('v1').value);
             var algo_pf_value = parseInt(user_value);

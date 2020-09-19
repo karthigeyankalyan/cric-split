@@ -73,7 +73,7 @@
         <input type="number" style="display: none" id="numPlayers" name="numPlayers">
 
         <div style="margin: 0; position: relative; top: 50%; left: 50%;">
-            <button style="border-radius: 5px; justify-content: center; align-self: center; color: white" onclick="alertPurchase()">Confirm</button>
+            <button id="purchase" style="border-radius: 5px; justify-content: center; align-self: center; color: white" onclick="alertPurchase()">Confirm</button>
         </div>
     </form>
 
@@ -175,6 +175,7 @@
                 var base_price_loop_var = parseInt(document.getElementById('bPrice'+i).innerHTML);
                 var num_shares_loop_var = parseInt(document.getElementById(i).value) || 0;
                 total_purchased_value += base_price_loop_var * num_shares_loop_var;
+                var player_value = base_price_loop_var * num_shares_loop_var;
 
                 if (num_shares_loop_var !== 0) {
                     player_counter++;
@@ -190,7 +191,7 @@
                             '<input class="amount" type="number" id='+player_id_var+' name='+player_id_var+' value='+(player_id)+'>' +
                             '<input class="amount" type="number" id='+num_shares_form_var+' name='+num_shares_form_var+' value='+(num_shares_loop_var)+'>' +
                             '<input class="amount" type="text" id='+player_name_var+' name='+player_name_var+'>' +
-                            '<input class="amount" type="number" id='+value_form_var+' name='+value_form_var+'>' +
+                            '<input class="amount" type="number" id='+value_form_var+' name='+value_form_var+' value='+(player_value)+'>' +
                             '</div>');
                     purchase_det.append(row);
                     document.getElementById(player_name_var).value = player_name;
@@ -198,6 +199,13 @@
                 }
             }
             document.getElementById('budRemaining').innerHTML = (parseInt(parseInt("{{user.budget_remaining}}").toFixed(0)) - parseInt(total_purchased_value)) + " INR";
+            var bud_remaining = parseInt(parseInt("{{user.budget_remaining}}").toFixed(0)) - parseInt(total_purchased_value);
+            if (bud_remaining < 0) {
+                alert('You have gone over budget. Make changes to your squad. And then press Confim.');
+                document.getElementById('purchase').style.display = "none";
+            } else {
+                document.getElementById('purchase').style.display = "";
+            }
         }
 
         function alertPurchase() {
@@ -220,13 +228,11 @@
                 });
             }
 
-            if ( total_value < 700000 ) {
+            if ( total_value <= 700000 ) {
                 var result = confirm("Do you want to confirm purchase of " +total_shares+" shares?" );
                 if ( result ) {
                     document.getElementById('purchaseForm').submit();
                 }
-            } else {
-                alert("You have exceeded the budget :(");
             }
         }
 
