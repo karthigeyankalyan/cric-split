@@ -79,6 +79,13 @@ body {
   background-color:white;
 }
 
+    button {
+        background-color: green;
+        border-color: white;
+        border-radius: 10px;
+        font-size: 14px;
+    }
+
 .tile .body .title {
     text-align:center;
     font-size:16px;
@@ -157,13 +164,13 @@ a:hover {
 	color:white;
 }
 
-
 </style>
 
 <div style="flex-direction: column; align-items: center; justify-content: space-around; display: flex;">
 
     <div id="username">
         <h4>How to Play Cric / Split</h4>
+        <button style="color: white; margin-top: 10px" onclick="reselectTeam()">Go to Your Dashboard</button>
     </div>
 
     <div style="flex-direction: row; align-items: center; justify-content: space-around; display: flex; width: 100%">
@@ -206,6 +213,12 @@ a:hover {
         </div>
     </div>
 
-</div>
+<script>
+    
+    function reselectTeam() {
+        window.location.href = '/profile';
+    }
+    
+</script>
 
 {% endblock %}

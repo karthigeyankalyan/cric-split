@@ -228,6 +228,16 @@
         function post_ajax(user_value) {
             document.getElementById('yourTeam').innerHTML = "Your Team - Post Game Portfolio Value - "+ user_value + " INR";
             document.getElementById('v1').value = user_value;
+            var user_pf_value = parseInt(document.getElementById('v1').value);
+            var algo_pf_value = parseInt(user_value);
+
+            if (user_pf_value >= algo_pf_value && algo_pf_value !==0) {
+                document.getElementById('valueComparison').innerHTML = "You beat Computer-Ji by "+(user_pf_value-algo_pf_value)+" INR";
+            } else if (user_pf_value < algo_pf_value) {
+                document.getElementById('valueComparison').innerHTML = "You lost to Computer-Ji by "+(algo_pf_value - user_pf_value)+" INR";
+            } else {
+                document.getElementById('valueComparison').innerHTML = "Game Data has not been updated yet.";
+            }
         }
 
      var src = "/raw_team/{{match_id}}/a7dd4b5335274c7e85afc79bfa251f89";

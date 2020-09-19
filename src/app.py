@@ -54,7 +54,7 @@ def login_user():
     #
 
     if valid:
-        return render_template('profile.html', user=user)
+        return render_template('profile1.html', user=user)
 
     else:
         return render_template('login_fail.html', user=user)
@@ -80,7 +80,7 @@ def register_user():
 
     user = User.get_by_email(email)
 
-    return render_template('profile.html', user=user)
+    return render_template('profile1.html', user=user)
 
 
 @app.route('/raw_market_list/<string:team1>/<string:team2>')
