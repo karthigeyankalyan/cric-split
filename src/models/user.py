@@ -8,7 +8,7 @@ from datetime import datetime
 class User(object):
 
     def __init__(self, email, password, user_name=None, user_id=None, _id=None,
-                 algorithm_beaten_count=None, budget_remaining=800000):
+                 algorithm_beaten_count=None, budget_remaining=700000):
         self.algorithm_beaten_count = algorithm_beaten_count
         self.budget_remaining = budget_remaining
         self.email = email
