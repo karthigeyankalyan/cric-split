@@ -112,6 +112,7 @@
             dataType: 'json',
             success: function (json) {
                 console.log(json);
+                json = json.sort(function(a, b) {return b['Base price'] - a['Base price']});
                 var tbl = $("<table class='w3-table w3-bordered' id='demandDetails'/>");
                 $("#demandList").append(tbl);
                 var hr = "<tr class='w3-red'>";
