@@ -70,6 +70,8 @@
             dataType: 'json',
             success: function (json) {
 
+                json = json.sort(function(a, b) {return a['Match ID'] - b['Match ID']});
+
                     var tbl = $("<table class='w3-table w3-bordered' id='demandDetails'/>");
                     $("#demandList").append(tbl);
                     var hr = "<tr class='w3-red'>";
@@ -80,6 +82,7 @@
                     var th5 = "<th style='text-align:center;vertical-align:middle'>" + "Performance Comparison" + "</th>";
                     $("#demandDetails").append(hr + th1 + th2 + th3 + th4 + th5);
                     for (var j = 0; j < json.length; j++) {
+
                         var url = '/user_algorithm_comparison/{{user_id}}/'+json[j]['Match ID'];
                         var tot_val_var = 'totValue'+j;
                         var base_price_var = 'bPrice'+j;
