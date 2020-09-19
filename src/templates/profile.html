@@ -150,7 +150,7 @@ a:hover {
             <div class="body">
               <div id="mvdtitle" class="title">
                   <span>
-                      <a href="/ViewMarket/Super Kings/Indians/1301">
+                      <a id="game1" href="/ViewMarket/Super Kings/Indians/1301">
                           Pick Team
                       </a>
                       <b>|</b>
@@ -290,6 +290,7 @@ var x = setInterval(function() {
   if (distance < 0) {
     clearInterval(x);
     document.getElementById("demo").innerHTML = "You missed the deadline :(";
+    document.getElementById("game1").href = "#";
   }
 }, 1000);
 
