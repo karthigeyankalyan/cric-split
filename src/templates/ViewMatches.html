@@ -89,7 +89,7 @@
                         var row = $('<tr></tr>').html("<td style='text-align:center;vertical-align:middle' id='"+player_var+"'>" + json[j]['Match ID'] + '</td>' +
                             "<td style='text-align:center;vertical-align:middle'>" + json[j]['Team'] + '</td>' +
                             "<td style='text-align:center;vertical-align:middle'>" + json[j]['Team2'] + '</td>' +
-                            "<td style='text-align:center;vertical-align:middle' id='"+base_price_var+"'>" + moment(json[j]["Date"]).format('DD/MM/YYYY') + '</td>' +
+                            "<td style='text-align:center;vertical-align:middle' id='"+base_price_var+"'>" + moment(json[j]["Date"] + "-2020").format('DD/MM/YYYY') + '</td>' +
                             '<td style="text-align:center;vertical-align:middle"><button class="button"><a href="' + url + '">'+ 'Algorithm Comparison Results' +'</a></button></td>');
                         $("#demandDetails").append(row);
                     }
