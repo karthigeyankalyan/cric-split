@@ -231,6 +231,7 @@
             document.getElementById('yourTeam').innerHTML = "Your Team - Final Portfolio Value - "+ (parseInt(user_value) + (700000 - parseInt(user_pregame_value))) + " INR";
             document.getElementById('v1').value = user_value;
             var user_pf_value = parseInt(document.getElementById('v1').value);
+            document.getElementById('user_tot_value').value = (parseInt(user_value) + (700000 - parseInt(user_pregame_value)));
             var algo_pf_value = parseInt(user_value);
 
             if (user_pf_value >= algo_pf_value && algo_pf_value !==0) {
@@ -395,7 +396,8 @@
             document.getElementById('algoTeam').innerHTML = "ComputerJi's Team - Final Portfolio Value - " + (parseInt(user_value) + (700000 - parseInt(user_pregame_value))) + " INR";
             document.getElementById('v2').value = user_value;
             var user_pf_value = parseInt(document.getElementById('v1').value);
-            var algo_pf_value = parseInt(user_value);
+            var algo_pf_value = (parseInt(user_value) + (700000 - parseInt(user_pregame_value)));
+            user_pf_value = document.getElementById('user_tot_value').value;
 
             if (user_pf_value >= algo_pf_value && algo_pf_value !==0) {
                 document.getElementById('valueComparison').innerHTML = "You beat Computer-Ji by "+(user_pf_value-algo_pf_value)+" INR";
