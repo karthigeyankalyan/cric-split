@@ -219,6 +219,7 @@
                     },
                     complete: function (e) {
                         post_ajax(user_portfolio_value, user_pregame_value);
+                        algoTeam();
                         },
                     error: function (e) {
                         alert("Results will be available the day after the game is played.");
@@ -246,6 +247,7 @@
             }
         }
 
+function algoTeam() {
      var src = "/raw_team/{{match_id}}/a7dd4b5335274c7e85afc79bfa251f89";
 //     var src = "/raw_team/{{match_id}}/44a3e0ec749347668b82a0b1836c480b";
      var src1 = "/raw_players_by_match/{{match_id}}";
@@ -394,6 +396,7 @@
                 alert("error");
             }
         });
+}
 
         function post_ajax2(user_value, user_pregame_value) {
             document.getElementById('algoTeam').innerHTML = "ComputerJi's Team - Final Portfolio Value - " + (parseInt(user_value) + (700000 - parseInt(user_pregame_value))) + " INR";
