@@ -274,7 +274,7 @@
 
                             for (i=0; i< final_json_algo.length; i++) {
                                 var final_points = 0;
-                                if (final_json_algo[i]['player_profile'] !== "Bowler" && final_json_algo[i]['runs_scored'] === 0) {
+                                if (final_json_algo[i]['player_profile'] !== "Bowler" && final_json_algo[i]['runs_scored'] === 0 && final_json_algo[i]['out'] === 1) {
                                     final_points -= 20
                                 }
                                 var runs_bonus = final_json_algo[i]['runs_scored'];
