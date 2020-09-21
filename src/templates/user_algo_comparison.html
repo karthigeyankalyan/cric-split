@@ -183,6 +183,10 @@
                                 final_json[i]['final_points'] = final_points;
                                 var reference_points = final_json[i]['value_per_share'] / 20;
 
+                                if (final_json[i]['overs'] === 0 && final_json[i]['balls_faced'] === 0) {
+                                    reference_points = 0;
+                                }
+
                                 final_json[i]['new_value_per_share'] = final_json[i]['value_per_share'] + (final_points - reference_points);
                                 final_json[i]['total_value_post_game'] = final_json[i]['new_value_per_share'] * final_json[i]['shares_purchased'];
                                 final_json[i]['total_value_pre_game'] = final_json[i]['value_per_share'] * final_json[i]['shares_purchased'];
@@ -351,6 +355,10 @@ function algoTeam() {
                                 final_points = runs_bonus + boundary_bonus + sr_bonus + milestone_bonus + wkts_bonus + maiden_bonus + dot_bonus + econ_bonus + wkt_milestone_bonus;
                                 final_json_algo[i]['final_points'] = final_points;
                                 var reference_points = final_json_algo[i]['value_per_share'] / 20;
+
+                                if (final_json_algo[i]['overs'] === 0 && final_json_algo[i]['balls_faced'] === 0) {
+                                    reference_points = 0;
+                                }
 
                                 final_json_algo[i]['new_value_per_share'] = final_json_algo[i]['value_per_share'] + (final_points - reference_points);
                                 final_json_algo[i]['total_value_post_game'] = final_json_algo[i]['new_value_per_share'] * final_json_algo[i]['shares_purchased'];

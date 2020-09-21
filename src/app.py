@@ -60,12 +60,11 @@ def login_user():
         return render_template('login_fail.html', user=user)
 
 
-@app.route('/profile')
-def user_profile():
-    email = session['email']
-    user = User.get_by_email(email)
+@app.route('/profile/<string:user_id>')
+def user_profile(user_id):
+    user = User.get_by_id(user_id)
 
-    if email is not None:
+    if user is not None:
         return render_template('profile.html', user=user)
     else:
         return render_template('login_fail.html', user=user)
@@ -147,9 +146,8 @@ def get_raw_matches():
 
 @app.route('/delete_team/<string:match_id>/<string:user_id>')
 def delete_team(match_id, user_id):
-    email = session['email']
-    user = User.get_by_email(email)
-    if email is not None:
+    user = User.get_by_id(user_id)
+    if user is not None:
         Database.delete_from_mongo(collection='teams', query={'match_id': match_id, 'user_id': user_id})
         return render_template('TeamDeleted.html', user=user, match_id=match_id, user_id=user_id)
     else:
@@ -158,9 +156,8 @@ def delete_team(match_id, user_id):
 
 @app.route('/view_team/<string:match_id>/<string:user_id>')
 def view_team(match_id, user_id):
-    email = session['email']
-    user = User.get_by_email(email)
-    if email is not None:
+    user = User.get_by_id(user_id)
+    if user is not None:
         return render_template('ViewTeam.html', user=user, match_id=match_id, user_id=user_id)
     else:
         return render_template('login_fail.html', user=user)
@@ -168,9 +165,8 @@ def view_team(match_id, user_id):
 
 @app.route('/view_matches/<string:user_id>')
 def view_matches(user_id):
-    email = session['email']
-    user = User.get_by_email(email)
-    if email is not None:
+    user = User.get_by_id(user_id)
+    if user is not None:
         return render_template('ViewMatches.html', user=user, user_id=user_id)
     else:
         return render_template('login_fail.html', user=user)
@@ -178,19 +174,17 @@ def view_matches(user_id):
 
 @app.route('/user_algorithm_comparison/<string:user_id>/<string:match_id>')
 def user_algorithm_comp(user_id, match_id):
-    email = session['email']
-    user = User.get_by_email(email)
-    if email is not None:
+    user = User.get_by_id(user_id)
+    if user is not None:
         return render_template('user_algo_comparison.html', user=user, user_id=user_id, match_id=match_id)
     else:
         return render_template('login_fail.html', user=user)
 
 
-@app.route('/ViewMarket/<string:team1>/<string:team2>/<string:match_id>', methods=['POST', 'GET'])
-def view_market(team1, team2, match_id):
-    email = session['email']
-    user = User.get_by_email(email)
-    if email is not None:
+@app.route('/ViewMarket/<string:user_id>/<string:team1>/<string:team2>/<string:match_id>', methods=['POST', 'GET'])
+def view_market(team1, team2, match_id, user_id):
+    user = User.get_by_id(user_id)
+    if user is not None:
         if request.method == 'GET':
             return render_template('ViewMarket.html', user=user, team1=team1, team2=team2, match_id=match_id)
         else:
