@@ -104,7 +104,8 @@
                                 for(var j=0; j<jsonFunc.length; j++) {
                                     if (parseInt(json[i]['player_id']) === jsonFunc[j]['player_id']) {
                                         final_json.push(jsonFunc[j]);
-                                        final_json[i]['shares_purchased'] = json[i]['shares_purchased'];
+                                        console.log(final_json.length-1, final_json[final_json.length-2], final_json);
+                                        final_json[final_json.length-1]['shares_purchased'] = json[i]['shares_purchased'];
                                     }
                                 }
                             }
