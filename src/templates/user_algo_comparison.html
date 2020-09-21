@@ -273,6 +273,7 @@ function algoTeam() {
                                 for(var j=0; j<jsonFunc.length; j++) {
                                     if (parseInt(json[i]['player_id']) === jsonFunc[j]['player_id']) {
                                         final_json_algo.push(jsonFunc[j]);
+                                        console.log(final_json_algo.length-1, final_json_algo[final_json_algo.length-2], final_json_algo);
                                         final_json_algo[final_json_algo.length-1]['shares_purchased'] = json[i]['shares_purchased'];
                                     }
                                 }
