@@ -19,10 +19,9 @@ def home_page():
     return render_template('login.html')
 
 
-@app.route('/logout')
-def logout():
-    email = session['email']
-    user = User.get_by_email(email)
+@app.route('/logout/<string:user_id>')
+def logout(user_id):
+    user = User.get_by_id(user_id)
     user.logout()
     return render_template('login.html')
 
