@@ -134,7 +134,7 @@
 
                         var aggregatedData = d3.nest()
                             .key(function (d) {
-                                return d.user_id;
+                                return d.user_name;
                             })
                             .key(function (d) {
                                 return d.match_id;
@@ -146,18 +146,28 @@
                             })
                             .entries(final_json);
 
-                        var result = [];
-                        final_json.reduce(function(res, value) {
-                            if (!res[value.user_id]) {
-                                res[value.user_id] = { user_id: value.user_id, points: 0, user_name: value.user_name };
-                                result.push(res[value.user_id])
-                            }
-                            res[value.user_id].points += value.final_points;
-                            return res;
-                            }, {});
-
-                        console.log(result);
-                        console.log(aggregatedData);
+                            console.log(final_json);
+//                            var tbl = $("<table class='w3-table w3-bordered' id='demandDetails'/>");
+//                            $("#demandList").append(tbl);
+//                            var hr = "<tr class='w3-red'>";
+//                            var th1 = "<th style='text-align:center;vertical-align:middle'>" + "Rank" + "</th>";
+//                            var th2 = "<th style='text-align:center;vertical-align:middle'>" + "Player" + "</th>";
+//                            var th3 = "<th style='text-align:center;vertical-align:middle'>" + "Points" + "</th>";
+//                            var th4 = "<th style='text-align:center;vertical-align:middle'>" + "Base Price" + "</th>";
+//                            var th5 = "<th style='text-align:center;vertical-align:middle'>" + "Number of Shares" + "</th>";
+//                            $("#demandDetails").append(hr + th1 + th2 + th3 + th4 + th5);
+//                            for (j = 0; j < final_json.length; j++) {
+//                                var post_game_value_id = 'user'+j;
+//                                var row = $('<tr></tr>').html("<td style='text-align:center;vertical-align:middle'>" + final_json[j]['match_id'] + '</td>' +
+//                                    "<td style='text-align:center;vertical-align:middle'>" + final_json[j]['player_name'] + '</td>' +
+//                                    "<td style='text-align:center;vertical-align:middle'>" + final_json[j]['final_points'] + '</td>' +
+//                                    "<td style='text-align:center;vertical-align:middle'>" + final_json[j]['value_per_share'] + '</td>' +
+//                                    "<td style='text-align:center;vertical-align:middle'>" + final_json[j]['shares_purchased'] + '</td>' +
+//                                    "<td style='text-align:center;vertical-align:middle'>" + addComma(final_json[j]['total_value_pre_game']) + '</td>' +
+//                                    "<td style='text-align:center;vertical-align:middle' id='"+post_game_value_id+"'>" + addComma(final_json[j]['total_value_post_game'])  + '</td>'+
+//                                    "<td style='text-align:center;vertical-align:middle' id='value_change'>" + ((final_json[j]['total_value_post_game'] - final_json[j]['total_value_pre_game']) * 100 / final_json[j]['total_value_pre_game']).toFixed(2) + " %" + '</td>');
+//                                $("#demandDetails").append(row);
+//                            }
 
                     },
                     error: function (e) {
