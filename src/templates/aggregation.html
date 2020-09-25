@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 
+<body>
+    <div id="demandList">
+        <p id="yourTeam">User Standings</p>
+    </div>
+
+</body>
+
 <script>
     aggregate();
 
@@ -147,27 +154,27 @@
                             .entries(final_json);
 
                             console.log(aggregatedData);
-//                            var tbl = $("<table class='w3-table w3-bordered' id='demandDetails'/>");
-//                            $("#demandList").append(tbl);
-//                            var hr = "<tr class='w3-red'>";
-//                            var th1 = "<th style='text-align:center;vertical-align:middle'>" + "Rank" + "</th>";
-//                            var th2 = "<th style='text-align:center;vertical-align:middle'>" + "Player" + "</th>";
-//                            var th3 = "<th style='text-align:center;vertical-align:middle'>" + "Points" + "</th>";
-//                            var th4 = "<th style='text-align:center;vertical-align:middle'>" + "Base Price" + "</th>";
-//                            var th5 = "<th style='text-align:center;vertical-align:middle'>" + "Number of Shares" + "</th>";
-//                            $("#demandDetails").append(hr + th1 + th2 + th3 + th4 + th5);
-//                            for (j = 0; j < final_json.length; j++) {
-//                                var post_game_value_id = 'user'+j;
-//                                var row = $('<tr></tr>').html("<td style='text-align:center;vertical-align:middle'>" + final_json[j]['match_id'] + '</td>' +
-//                                    "<td style='text-align:center;vertical-align:middle'>" + final_json[j]['player_name'] + '</td>' +
-//                                    "<td style='text-align:center;vertical-align:middle'>" + final_json[j]['final_points'] + '</td>' +
-//                                    "<td style='text-align:center;vertical-align:middle'>" + final_json[j]['value_per_share'] + '</td>' +
-//                                    "<td style='text-align:center;vertical-align:middle'>" + final_json[j]['shares_purchased'] + '</td>' +
-//                                    "<td style='text-align:center;vertical-align:middle'>" + addComma(final_json[j]['total_value_pre_game']) + '</td>' +
-//                                    "<td style='text-align:center;vertical-align:middle' id='"+post_game_value_id+"'>" + addComma(final_json[j]['total_value_post_game'])  + '</td>'+
-//                                    "<td style='text-align:center;vertical-align:middle' id='value_change'>" + ((final_json[j]['total_value_post_game'] - final_json[j]['total_value_pre_game']) * 100 / final_json[j]['total_value_pre_game']).toFixed(2) + " %" + '</td>');
-//                                $("#demandDetails").append(row);
-//                            }
+
+                            var tbl = $("<table class='w3-table w3-bordered' id='demandDetails'/>");
+                            $("#demandList").append(tbl);
+                            var hr = "<tr class='w3-red'>";
+                            var th1 = "<th style='text-align:center;vertical-align:middle'>" + "Rank" + "</th>";
+                            var th2 = "<th style='text-align:center;vertical-align:middle'>" + "User" + "</th>";
+                            var th3 = "<th style='text-align:center;vertical-align:middle'>" + "Overall Points" + "</th>";
+                            var th4 = "<th onclick='sortTable(3)' style='text-align:center;vertical-align:middle'>" + "Points Per Game" + "</th>";
+                            $("#demandDetails").append(hr + th1 + th2 + th3 + th4);
+                            for (i = 0; i < aggregatedData.length; i++) {
+                                var user_total_points = 0;
+                                for(j = 0; j < aggregatedData[i].values.length; j++) {
+                                    user_total_points += aggregatedData[i].values[j];
+                                }
+
+                                var row = $('<tr></tr>').html("<td style='text-align:center;vertical-align:middle'>" + (j+1) + '</td>' +
+                                    "<td style='text-align:center;vertical-align:middle'>" + aggregatedData[i].key + '</td>' +
+                                    "<td style='text-align:center;vertical-align:middle'>" + addComma(user_total_points) + '</td>' +
+                                    "<td style='text-align:center;vertical-align:middle'>" + user_total_points / aggregatedData[i].values.length + '</td>');
+                                $("#demandDetails").append(row);
+                            }
 
                     },
                     error: function (e) {
@@ -180,6 +187,68 @@
             }
         });
     }
+
+        function addComma(x) {
+        x=x.toString();
+        var lastThree = x.substring(x.length-3);
+        var otherNumbers = x.substring(0,x.length-3);
+        if(otherNumbers !== '')
+            lastThree = ',' + lastThree;
+        var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+        return res;
+    }
+
+        function sortTable(n) {
+            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            table = document.getElementById("demandDetails");
+            switching = true;
+            // Set the sorting direction to ascending:
+            // dir = "asc";
+            // /* Make a loop that will continue until no switching has been done: */
+            // while (switching) {
+            // Start by saying: no switching is done:
+            // switching = false;
+            // rows = table.rows;
+            // /* Loop through all table rows (except the first, which contains table headers): */
+    for (i = 1; i < (rows.length - 1); i++) {
+      // Start by saying there should be no switching:
+      shouldSwitch = false;
+      /* Get the two elements you want to compare,
+      one from current row and one from the next: */
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+      /* Check if the two rows should switch place,
+      based on the direction, asc or desc: */
+      if (dir === "asc") {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          // If so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      } else if (dir === "desc") {
+        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          // If so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      /* If a switch has been marked, make the switch
+      and mark that a switch has been done: */
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      // Each time a switch is done, increase this count by 1:
+      switchcount ++;
+    } else {
+      /* If no switching has been done AND the direction is "asc",
+      set the direction to "desc" and run the while loop again. */
+      if (switchcount === 0 && dir === "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
 
 </script>
 
