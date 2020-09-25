@@ -132,16 +132,19 @@
                             }
 
 
-//                        var aggregatedData = d3.nest()
-//                            .key(function (d) {
-//                                return d.user_id;
-//                            })
-//                            .rollup(function (leaves) {
-//                                return {
-//                                    "total_points": d3.sum(leaves, function (d) {return d.final_points;})
-//                                }
-//                            })
-//                            .entries(final_json);
+                        var aggregatedData = d3.nest()
+                            .key(function (d) {
+                                return d.user_id;
+                            })
+                            .key(function (d) {
+                                return d.match_id;
+                            })
+                            .rollup(function (leaves) {
+                                return {
+                                    "total_points": d3.sum(leaves, function (d) {return d.final_points;})
+                                }
+                            })
+                            .entries(final_json);
 
                         var result = [];
                         final_json.reduce(function(res, value) {
@@ -154,6 +157,7 @@
                             }, {});
 
                         console.log(result);
+                        console.log(aggregatedData);
 
                     },
                     error: function (e) {
