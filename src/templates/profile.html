@@ -1,299 +1,130 @@
-{% extends "base.html" %}
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cric / Split</title>
+    <!--Scripts to be imported-->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.0.4/popper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+	<script src="https://d3js.org/d3.v3.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600');
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css');
 
-<style>
-    @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600');
-    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css');
+        .dropbtn{
+                color: darkslategrey;
+                padding: 16px;
+                font-size: 16px;
+                border: none;
+                cursor: pointer;
+            }
+            .dropdown {
+                position: relative;
+                display: inline-block;
+            }
 
+        * {
+            font-family: 'Open Sans', sans-serif;
+            font-size:14px;
+        }
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: green;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+            }
+            li {
+              float: left;
+            }
 
-    * {
-  font-family: 'Open Sans', sans-serif;
-  font-size:12px;
-}
-    button {
-    background-color: rgba(112, 0, 226, 0.9);
-    border-color: white;
-    color: white;
-    height: 60px;
-  }
+            #username {
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+                margin-top: 50px;
+            }
 
+            li a, .dropbtn {
+              display: inline-block;
+              color: white;
+              text-align: center;
+              text-decoration: none;
+              font-size: 15px;
+            }
 
-body {
-    background-color:#ececec;
-}
+            li {
+              display: inline-block;
+              color: white;
+              padding: 14px 16px;
+              font-size: 24px;
+              text-align: center;
+              text-decoration: none;
+              margin-left: 10px;
+              margin-right: 10px;
+            }
+            .dropdown-content a {
+                color: white;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+            .dropdown-content a:hover {
+                color: black;
+            }
+            .dropdown:hover .dropdown-content {
+                display: block;
+            }
 
-.container {
-  margin: 50px 0 0 50px;
-}
+    </style>
+</head>
+<body>
+    <!--Navigation Bar [Log-In, Register]-->
+    <nav class="navbar navbar-expand" id="stickyNavBar" style="background-color: green">
+        <ul>
+            <img src="https://i.ibb.co/9N4WZyG/logo2.png" style="height: 70px; width: 77px; margin-top: 5px;">
+        </ul>
+        <li class="navbar-brand"><h4>Cric / Split</h4></li>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <div class="dropdown">
+                        <div class="dropbtn"><a>Completed Games</a></div>
+                        <div class="dropdown-content">
+                            <a href="/view_matches/{{user._id}}">Performance By Match</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item active">
+                    <div class="dropdown">
+                        <div class="dropbtn"><a href="/profile/{{user._id}}">Profile</a></div>
+                        <div class="dropdown-content">
+                            <a href="/profile/{{user._id}}">Profile Landing</a>
+                            <a href="/logout/{{user._id}}">Log-out</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item active">
+                    <div class="dropdown">
+                        <div class="dropbtn"><a href="/how_to_play">How to Play?</a></div>
+                    </div>
+                </li>
+                <li class="nav-item active">
+                    <div class="dropdown">
+                        <div class="dropbtn"><a href="/aggregate_points/{{user._id}}">Leaderboard</a></div>
+                    </div>
+                </li>
+            </ul>
+    </nav>
 
-.tile {
-  width:350px;
-  height:140px;
-  border-radius:4px;
-  box-shadow: 2px 2px 4px 0 rgba(0,0,0,0.15);
-  margin-top:20px;
-  float:left;
-}
+    {% block content %}
+    {% endblock %}
 
-.tile.wide {
-  width: 500px;
-}
-
-.tile .header {
-  height:120px;
-  background-color:#f4f4f4;
-  border-radius: 4px 4px 0 0;
-  color:white;
-  font-weight:300;
-}
-
-.tile.wide .header .left, .tile.wide .header .right {
-  width:160px;
-  float:left;
-}
-
-.tile .header .count {
-  font-size: 24px;
-  text-align:center;
-  padding:10px 0 0;
-}
-
-.tile .header .title {
-  font-size: 20px;
-  text-align:center;
-}
-
-.sub {
-    font-size: 14px;
-    text-align: center;
-    color: black;
-    font-weight: bold;
-}
-
-.tile .body {
-  height:40px;
-  border-radius: 0 0 4px 4px;
-  color:#333333;
-  background-color:white;
-}
-
-.tile .body .title {
-    text-align:center;
-    font-size:16px;
-    padding-top:2%;
-}
-
-.tile.wide .body .title {
-  padding:4%;
-}
-
-.tile.job .header {
-  background: linear-gradient(to bottom right, #c30d0d, #DC1C13);
-    font-weight: 500;
-}
-
-.tile.job  .body{
-  color: #c30d0d;
-}
-
-a {
-  color: #c30d0d;
-    font-size: 16px;
-    font-weight: bolder;
-}
-
-a:hover {
-    text-decoration: none;
-    color: #333333;
-}
-
-.tile.resource .header {
-  background: linear-gradient(to bottom right, #DC1C13, #EA4C46);
-}
-
-.tile.resource  .body {
-  color: green;
-}
-
-.tile.quote .header {
-  background: linear-gradient(to bottom right, #1f6abb, #4f9cf2);
-}
-
-.tile.quote  .body {
-  color: #1f6abb;
-}
-
-.tile.invoice .header {
-  background: linear-gradient(to bottom right, #0aa361, #1adc88);
-}
-
-.tile.invoice  .body {
-    color: #0aa361;
-}
-</style>
-
-<div style="flex-direction: column; align-items: center; justify-content: space-between; display: flex;">
-
-    <div id="username">
-      <h2>Upcoming Matches</h2>
-    </div>
-
-    <div style="flex-direction: row; align-items: center; justify-content: space-around; display: flex;">
-        <div class="container">
-          <div class="tile job">
-            <div class="header">
-              <div id="mvdvisits" class="count">Super Kings v/s Capitals</div>
-              <div id="mvdname" class="sub">25th September, 2020</div>
-              <div id="mvdvenue" class="sub">Deadline</div>
-              <div id="demo" class="sub"></div>
-            </div>
-            <div class="body">
-              <div id="mvdtitle" class="title">
-                  <span>
-                      <a id="game1" href="/ViewMarket/{{user._id}}/Capitals/Super Kings/1307">
-                          Pick Team
-                      </a>
-                      <b>|</b>
-                      <a href="/view_team/1307/{{user._id}}">
-                          View Team
-                      </a>
-                      <b>|</b>
-                      <a href="/view_team/1307/a7dd4b5335274c7e85afc79bfa251f89">
-                          ComputerJi's Team
-                      </a>
-                  </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="container">
-          <div class="tile job">
-            <div class="header">
-              <div id="mvdvisits1" class="count">Knight Riders v/s Sunrisers</div>
-              <div id="mvdname1" class="sub">26th September, 2020</div>
-              <div id="mvdvenue1" class="sub">Deadline</div>
-              <div id="demo1" class="sub"></div>
-            </div>
-            <div class="body">
-              <div id="mvdtitle1" class="title">
-                  <span>
-                      <a href="/ViewMarket/{{user._id}}/Knight Riders/Sunrisers/1308">
-                          Pick Team
-                      </a>
-                      <b>|</b>
-                      <a href="/view_team/1308/{{user._id}}">
-                          View Team
-                      </a>
-                      <b>|</b>
-                      <a href="/view_team/1308/a7dd4b5335274c7e85afc79bfa251f89">
-                          ComputerJi's Team
-                      </a>
-                  </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="container">
-          <div class="tile job">
-            <div class="header">
-              <div id="mvdvisits1" class="count">Kings XI v/s Royals</div>
-              <div id="mvdname1" class="sub">27th September, 2020</div>
-              <div id="mvdvenue1" class="sub">Deadline</div>
-              <div id="demo2" class="sub"></div>
-            </div>
-            <div class="body">
-              <div id="mvdtitle1" class="title">
-                  <span>
-                      <a href="/ViewMarket/{{user._id}}/Kings XI/Royals/1309">
-                          Pick Team
-                      </a>
-                      <b>|</b>
-                      <a href="/view_team/1309/{{user._id}}">
-                          View Team
-                      </a>
-                      <b>|</b>
-                      <a href="/view_team/1309/a7dd4b5335274c7e85afc79bfa251f89">
-                          ComputerJi's Team
-                      </a>
-                  </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-    </div>
-
-</div>
-
-<div style="width: 60%; margin: 0 auto;">
-    <table class="w3-table w3-bordered" style="margin-top: 80px; text-align: center;">
-    <tr class="w3-red">
-        <th>Player</th>
-        <th>Team</th>
-        <th>Price Per Share</th>
-        <th>Points Per Game</th>
-        <th>Strike Rate</th>
-    </tr>
-    <tr>
-      <th>Russel</th>
-      <th>Knight Riders</th>
-      <th>1000</th>
-      <th>32.8</th>
-      <th>190</th>
-    </tr>
-    <tr>
-      <th>Pant</th>
-      <th>Capitals</th>
-      <th>1000</th>
-      <th>31.7</th>
-      <th>170</th>
-    </tr>
-    <tr>
-      <th>Warner</th>
-      <th>Sunrisers</th>
-      <th>1000</th>
-      <th>36.3</th>
-      <th>150</th>
-    </tr>
-    </table>
-</div>
-
-
-<script>
-    // Set the date we're counting down to
-var countDownDate = new Date("Sept 25, 2020 19:30:00").getTime();
-// Update the count down every 1 second
-var x = setInterval(function() {
-
-  // Get today's date and time
-  var now = new Date().getTime();
-
-  // Find the distance between now and the count down date
-  var distance = countDownDate - now;
-
-  // Time calculations for days, hours, minutes and seconds
-  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-  // Output the result in an element with id="demo"
-  document.getElementById("demo").innerHTML = days + "d " + hours + "h "
-  + minutes + "m " + seconds + "s ";
-  document.getElementById("demo1").innerHTML = (days + 1) + "d " + hours + "h "
-  + minutes + "m " + seconds + "s ";
-  document.getElementById("demo2").innerHTML = (days + 2) + "d " + hours + "h "
-  + minutes + "m " + seconds + "s ";
-
-  // If the count down is over, write some text
-  if (distance < 0) {
-    clearInterval(x);
-    document.getElementById("demo").innerHTML = "You missed the deadline :(";
-    document.getElementById("game1").href = "#";
-  }
-}, 1000);
-
-</script>
-
-{% endblock %}
+</body>
+</html>
