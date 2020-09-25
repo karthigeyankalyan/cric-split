@@ -23,30 +23,30 @@
                     dataType: 'json',
                     success: function (jsonFunc) {
 
-                            var lookup = {};
-                            var result1 = [];
-                            
-                            for (var item, i = 0; item = json[i++];) {
-                              var name = item.user_name;
-                            
-                              if (!(name in lookup)) {
-                                lookup[name] = 1;
-                                result1.push(name);
-                              }
-                            }
-                            
-                            console.log(result1);
 
                             for (var i = 0; i < json.length; i++) {
                                 for (var j = 0; j < jsonFunc.length; j++) {
                                     if (parseInt(json[i]['player_id']) === jsonFunc[j]['player_id'] && parseInt(json[i]['match_id']) === jsonFunc[j]['match_id']) {
-                                        final_json.push(jsonFunc[j]);
-                                        final_json[final_json.length - 1]['shares_purchased'] = json[i]['shares_purchased'];
+                                        final_json.push(json[i]);
                                         final_json[final_json.length - 1]['user_id'] = json[i]['user_id'];
                                         final_json[final_json.length - 1]['user_name'] = json[i]['user_name'];
                                     }
                                 }
                             }
+
+                            var lookup = {};
+                            var result1 = [];
+
+                            for (var item, i = 0; item = final_json[i++];) {
+                              var name = item.user_name;
+
+                              if (!(name in lookup)) {
+                                lookup[name] = 1;
+                                result1.push(name);
+                              }
+                            }
+
+                            console.log(result1);
 
                             for (i = 0; i < final_json.length; i++) {
                                 var final_points = 0;
