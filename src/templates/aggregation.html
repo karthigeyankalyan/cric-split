@@ -161,19 +161,32 @@
                             var th1 = "<th style='text-align:center;vertical-align:middle'>" + "Rank" + "</th>";
                             var th2 = "<th style='text-align:center;vertical-align:middle'>" + "User" + "</th>";
                             var th3 = "<th style='text-align:center;vertical-align:middle'>" + "Overall Points" + "</th>";
-                            var th4 = "<th onclick='sortTable(3)' style='text-align:center;vertical-align:middle'>" + "Points Per Game" + "</th>";
+                            var th4 = "<th style='text-align:center;vertical-align:middle'>" + "Points Per Game" + "</th>";
                             $("#demandDetails").append(hr + th1 + th2 + th3 + th4);
+
+                            var final_rank_array = [];
                             for (i = 0; i < aggregatedData.length; i++) {
                                 var user_total_points = 0;
-                                for(j = 0; j < aggregatedData[i].values.length; j++) {
+                                final_rank_array[i]['player'] = aggregatedData[i].key;
+                                for (j = 0; j < aggregatedData[i].values.length; j++) {
                                     console.log(aggregatedData[i].values[j]);
                                     user_total_points += aggregatedData[i].values[j].values.total_points;
                                 }
+                                final_rank_array[i]['total_points'] = user_total_points;
+                                final_rank_array[i]['ppg'] = user_total_points / aggregatedData[i].values.length;
 
+                            }
+                            
+                            console.log(final_rank_array);
+                            
+                                final_rank_array = final_rank_array.sort(function(a, b) {return a['total_points'] - b['total_points']});
+
+
+                            for (i = 0; i < final_rank_array.length; i++) {
                                 var row = $('<tr></tr>').html("<td style='text-align:center;vertical-align:middle'>" + (j+1) + '</td>' +
-                                    "<td style='text-align:center;vertical-align:middle'>" + aggregatedData[i].key + '</td>' +
-                                    "<td style='text-align:center;vertical-align:middle'>" + addComma(user_total_points) + '</td>' +
-                                    "<td style='text-align:center;vertical-align:middle'>" + user_total_points / aggregatedData[i].values.length + '</td>');
+                                    "<td style='text-align:center;vertical-align:middle'>" + final_rank_array[i]['player'] + '</td>' +
+                                    "<td style='text-align:center;vertical-align:middle'>" + addComma(final_rank_array[i]['total_points']) + '</td>' +
+                                    "<td style='text-align:center;vertical-align:middle'>" + final_rank_array[i]['ppg'] + '</td>');
                                 $("#demandDetails").append(row);
                             }
 
