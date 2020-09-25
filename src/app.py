@@ -118,6 +118,18 @@ def get_raw_players_by_match_id(match_id):
     return all_credits
 
 
+@app.route('/raw_players_all')
+def get_raw_players_by_match_id_all():
+    all_credit = []
+    all_credit_dict = Database.find("player", {})
+    for tran in all_credit_dict:
+        all_credit.append(tran)
+
+    all_credits = json.dumps(all_credit, default=json_util.default)
+
+    return all_credits
+
+
 @app.route('/raw_team/<string:match_id>/<string:user_id>')
 def get_raw_teams(match_id, user_id):
     all_credit = []
@@ -129,6 +141,23 @@ def get_raw_teams(match_id, user_id):
     all_credits = json.dumps(all_credit, default=json_util.default)
 
     return all_credits
+
+
+@app.route('/raw_teams_all')
+def get_raw_teams_all():
+    all_credit = []
+    all_credit_dict = Database.find("teams", {})
+    for tran in all_credit_dict:
+        all_credit.append(tran)
+
+    all_credits = json.dumps(all_credit, default=json_util.default)
+
+    return all_credits
+
+
+@app.route('/aggregate_points')
+def total_points():
+    return render_template('aggregation.html')
 
 
 @app.route('/raw_matches')

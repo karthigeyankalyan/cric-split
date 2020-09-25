@@ -193,9 +193,9 @@
 
                                 user_pregame_value += final_json[i]['total_value_pre_game'];
                                 user_portfolio_value += final_json[i]['total_value_post_game'];
-                                console.log(final_json[i]['player_name'], runs_bonus, boundary_bonus, sr_bonus, milestone_bonus)
                             }
 
+                            console.log(final_json);
                             var tbl = $("<table class='w3-table w3-bordered' id='demandDetails'/>");
                             $("#demandList").append(tbl);
                             var hr = "<tr class='w3-red'>";
@@ -206,7 +206,8 @@
                             var th5 = "<th style='text-align:center;vertical-align:middle'>" + "Number of Shares" + "</th>";
                             var th6 = "<th style='text-align:center;vertical-align:middle'>" + "Pre Game Value" + "</th>";
                             var th7 = "<th style='text-align:center;vertical-align:middle'>" + "Post Game Value" + "</th>";
-                            $("#demandDetails").append(hr + th1 + th2 + th3 + th4 + th5 + th6 + th7);
+                            var th8 = "<th style='text-align:center;vertical-align:middle'>" + "Value Change" + "</th>";
+                            $("#demandDetails").append(hr + th1 + th2 + th3 + th4 + th5 + th6 + th7 + th8);
                             for (j = 0; j < final_json.length; j++) {
                                 var post_game_value_id = 'user'+j;
                                 var row = $('<tr></tr>').html("<td style='text-align:center;vertical-align:middle'>" + final_json[j]['match_id'] + '</td>' +
@@ -214,8 +215,9 @@
                                     "<td style='text-align:center;vertical-align:middle'>" + final_json[j]['final_points'] + '</td>' +
                                     "<td style='text-align:center;vertical-align:middle'>" + final_json[j]['value_per_share'] + '</td>' +
                                     "<td style='text-align:center;vertical-align:middle'>" + final_json[j]['shares_purchased'] + '</td>' +
-                                    "<td style='text-align:center;vertical-align:middle'>" + final_json[j]['total_value_pre_game'] + '</td>' +
-                                    "<td style='text-align:center;vertical-align:middle' id='"+post_game_value_id+"'>" + final_json[j]['total_value_post_game'] + '</td>');
+                                    "<td style='text-align:center;vertical-align:middle'>" + addComma(final_json[j]['total_value_pre_game']) + '</td>' +
+                                    "<td style='text-align:center;vertical-align:middle' id='"+post_game_value_id+"'>" + addComma(final_json[j]['total_value_post_game'])  + '</td>'+
+                                    "<td style='text-align:center;vertical-align:middle' id='value_change'>" + ((final_json[j]['total_value_post_game'] - final_json[j]['total_value_pre_game']) * 100 / final_json[j]['total_value_pre_game']).toFixed(2) + " %" + '</td>');
                                 $("#demandDetails").append(row);
                             }
                         } else {
@@ -237,16 +239,16 @@
         });
 
         function post_ajax(user_value, user_pregame_value) {
-            document.getElementById('yourTeam').innerHTML = "Your Team - Final Portfolio Value - "+ (parseInt(user_value) + (700000 - parseInt(user_pregame_value))) + " INR";
+            document.getElementById('yourTeam').innerHTML = "Your Team - Final Portfolio Value - "+ addComma(parseInt(user_value) + (700000 - parseInt(user_pregame_value))) + " INR";
             document.getElementById('v1').value = user_value;
             var user_pf_value = parseInt(document.getElementById('v1').value);
             document.getElementById('user_tot_value').value = (parseInt(user_value) + (700000 - parseInt(user_pregame_value)));
             var algo_pf_value = parseInt(user_value);
 
             if (user_pf_value >= algo_pf_value && algo_pf_value !==0) {
-                document.getElementById('valueComparison').innerHTML = "You beat Computer-Ji by "+(user_pf_value-algo_pf_value)+" INR";
+                document.getElementById('valueComparison').innerHTML = "You beat Computer-Ji by "+addComma(user_pf_value-algo_pf_value)+" INR";
             } else if (user_pf_value < algo_pf_value) {
-                document.getElementById('valueComparison').innerHTML = "You lost to Computer-Ji by "+(algo_pf_value - user_pf_value)+" INR";
+                document.getElementById('valueComparison').innerHTML = "You lost to Computer-Ji by "+addComma(algo_pf_value - user_pf_value)+" INR";
             } else {
                 document.getElementById('valueComparison').innerHTML = "Game Data has not been updated yet.";
             }
@@ -379,7 +381,8 @@ function algoTeam() {
                             var th5 = "<th style='text-align:center;vertical-align:middle'>" + "Number of Shares" + "</th>";
                             var th6 = "<th style='text-align:center;vertical-align:middle'>" + "Pre Game Value" + "</th>";
                             var th7 = "<th style='text-align:center;vertical-align:middle'>" + "Post Game Value" + "</th>";
-                            $("#demandDetails2").append(hr + th1 + th2 + th3 + th4 + th5 + th6 + th7);
+                            var th8 = "<th style='text-align:center;vertical-align:middle'>" + "Value Change" + "</th>";
+                            $("#demandDetails2").append(hr + th1 + th2 + th3 + th4 + th5 + th6 + th7 + th8);
                             for (j = 0; j < final_json_algo.length; j++) {
                                 var post_game_value_id_algo = 'algo'+j;
                                 var row = $('<tr></tr>').html("<td style='text-align:center;vertical-align:middle'>" + final_json_algo[j]['match_id'] + '</td>' +
@@ -387,8 +390,9 @@ function algoTeam() {
                                     "<td style='text-align:center;vertical-align:middle'>" + final_json_algo[j]['final_points'] + '</td>' +
                                     "<td style='text-align:center;vertical-align:middle'>" + final_json_algo[j]['value_per_share'] + '</td>' +
                                     "<td style='text-align:center;vertical-align:middle'>" + final_json_algo[j]['shares_purchased'] + '</td>' +
-                                    "<td style='text-align:center;vertical-align:middle'>" + final_json_algo[j]['total_value_pre_game'] + '</td>' +
-                                    "<td style='text-align:center;vertical-align:middle' id='"+post_game_value_id_algo+"'>" + final_json_algo[j]['total_value_post_game'] + '</td>');
+                                    "<td style='text-align:center;vertical-align:middle'>" + addComma(final_json_algo[j]['total_value_pre_game']) + '</td>' +
+                                    "<td style='text-align:center;vertical-align:middle' id='"+post_game_value_id_algo+"'>" + addComma(final_json_algo[j]['total_value_post_game'])  + '</td>'+
+                                    "<td style='text-align:center;vertical-align:middle' id='value_change'>" + ((final_json_algo[j]['total_value_post_game'] - final_json_algo[j]['total_value_pre_game']) * 100 / final_json_algo[j]['total_value_pre_game']).toFixed(2) + " %" + '</td>');
                                 $("#demandDetails2").append(row);
                             }
                         }
@@ -408,7 +412,7 @@ function algoTeam() {
 }
 
         function post_ajax2(user_value, user_pregame_value) {
-            document.getElementById('algoTeam').innerHTML = "ComputerJi's Team - Final Portfolio Value - " + (parseInt(user_value) + (700000 - parseInt(user_pregame_value))) + " INR";
+            document.getElementById('algoTeam').innerHTML = "ComputerJi's Team - Final Portfolio Value - " + addComma((parseInt(user_value) + (700000 - parseInt(user_pregame_value)))) + " INR";
             document.getElementById('v2').value = user_value;
             var user_pf_value = parseInt(document.getElementById('v1').value);
             var algo_pf_value = (parseInt(user_value) + (700000 - parseInt(user_pregame_value)));
@@ -441,6 +445,16 @@ function algoTeam() {
                 }
             }
         }
+
+    function addComma(x) {
+        x=x.toString();
+        var lastThree = x.substring(x.length-3);
+        var otherNumbers = x.substring(0,x.length-3);
+        if(otherNumbers !== '')
+            lastThree = ',' + lastThree;
+        var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+        return res;
+    }
 
 </script>
 
