@@ -22,7 +22,6 @@
                     contentType: "application/json",
                     dataType: 'json',
                     success: function (jsonFunc) {
-                        if (jsonFunc.length > 0) {
                             for (var i = 0; i < json.length; i++) {
                                 for (var j = 0; j < jsonFunc.length; j++) {
                                     if (parseInt(json[i]['player_id']) === jsonFunc[j]['player_id'] && parseInt(json[i]['match_id']) === jsonFunc[j]['match_id']) {
@@ -33,7 +32,6 @@
                                     }
                                 }
                             }
-                            console.log(final_json);
 
                             for (i = 0; i < final_json.length; i++) {
                                 var final_points = 0;
@@ -119,8 +117,23 @@
 
                                 user_pregame_value += final_json[i]['total_value_pre_game'];
                                 user_portfolio_value += final_json[i]['total_value_post_game'];
+
                             }
-                        }
+
+var lookup = {};
+var result1 = [];
+
+for (var item, i = 0; item = final_json[i++];) {
+  var name = item.user_id;
+
+  if (!(name in lookup)) {
+    lookup[name] = 1;
+    result1.push(name);
+  }
+}
+
+console.log(result1);
+
 
 //                        var aggregatedData = d3.nest()
 //                            .key(function (d) {
