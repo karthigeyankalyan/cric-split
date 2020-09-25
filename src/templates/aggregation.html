@@ -1,9 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
 
+<style>
+    #demandList {
+        margin-top: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 80%;
+        align-self: center;
+        justify-content: center;
+    }
+</style>
+
 <body>
-    <div id="demandList">
-        <p id="yourTeam">User Standings</p>
+    <div>
+        <div id="demandList">
+            <p id="yourTeam">User Standings so far</p>
+        </div>
     </div>
 
 </body>
@@ -173,17 +186,22 @@
                                     user_total_points += aggregatedData[i].values[j].values.total_points;
                                 }
                                 final_rank_array[i]['total_points'] = user_total_points;
-                                final_rank_array[i]['ppg'] = user_total_points / aggregatedData[i].values.length;
+                                final_rank_array[i]['ppg'] = (user_total_points / aggregatedData[i].values.length).toFixed(2);
 
                             }
 
                             console.log(final_rank_array);
 
-                                final_rank_array = final_rank_array.sort(function(a, b) {return a['total_points'] - b['total_points']});
+                                final_rank_array = final_rank_array.sort(function(a, b) {return b['total_points'] - a['total_points']});
 
 
                             for (i = 0; i < final_rank_array.length; i++) {
-                                var row = $('<tr></tr>').html("<td style='text-align:center;vertical-align:middle'>" + (j+1) + '</td>' +
+
+                                if (final_rank_array[i]['player'] === 'algorithm') {
+                                    final_rank_array[i]['player'] = "Computer Ji";
+                                }
+
+                                var row = $('<tr></tr>').html("<td style='text-align:center;vertical-align:middle'>" + (i+1) + '</td>' +
                                     "<td style='text-align:center;vertical-align:middle'>" + final_rank_array[i]['player'] + '</td>' +
                                     "<td style='text-align:center;vertical-align:middle'>" + addComma(final_rank_array[i]['total_points']) + '</td>' +
                                     "<td style='text-align:center;vertical-align:middle'>" + final_rank_array[i]['ppg'] + '</td>');
