@@ -155,9 +155,10 @@ def get_raw_teams_all():
     return all_credits
 
 
-@app.route('/aggregate_points')
-def total_points():
-    return render_template('aggregation.html')
+@app.route('/aggregate_points/<string:user_id>')
+def total_points(user_id):
+    user = User.get_by_id(user_id)
+    return render_template('aggregation.html', user=user)
 
 
 @app.route('/raw_matches')
