@@ -289,7 +289,7 @@ function algoTeam() {
                                     final_points -= 20
                                 }
                                 var runs_bonus = final_json_algo[i]['runs_scored'];
-                                var boundary_bonus =  final_json_algo[i]['fours']*2 + final_json_algo[i]['fours']*3;
+                                var boundary_bonus =  final_json_algo[i]['fours']*2 + final_json_algo[i]['sixes']*3;
                                 var strike_rate = (final_json_algo[i]['runs_scored'] / final_json_algo[i]['balls_faced']) * 100;
                                 var sr_bonus = 0;
                                 var milestone_bonus = 0;
