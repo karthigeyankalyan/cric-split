@@ -124,7 +124,7 @@ var lookup = {};
 var result1 = [];
 
 for (var item, i = 0; item = final_json[i++];) {
-  var name = item.user_id;
+  var name = item.user_name;
 
   if (!(name in lookup)) {
     lookup[name] = 1;
