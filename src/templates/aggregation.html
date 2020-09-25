@@ -167,7 +167,7 @@
                             var final_rank_array = [];
                             for (i = 0; i < aggregatedData.length; i++) {
                                 var user_total_points = 0;
-                                final_rank_array[i]['player'] = aggregatedData[i].key;
+                                final_rank_array.push({'player': aggregatedData[i].key});
                                 for (j = 0; j < aggregatedData[i].values.length; j++) {
                                     console.log(aggregatedData[i].values[j]);
                                     user_total_points += aggregatedData[i].values[j].values.total_points;
@@ -176,9 +176,9 @@
                                 final_rank_array[i]['ppg'] = user_total_points / aggregatedData[i].values.length;
 
                             }
-                            
+
                             console.log(final_rank_array);
-                            
+
                                 final_rank_array = final_rank_array.sort(function(a, b) {return a['total_points'] - b['total_points']});
 
 
