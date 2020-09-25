@@ -84,7 +84,7 @@
      var source1 = "/raw_players_by_match/{{match_id}}";
      var final_json = [];
      var user_portfolio_value = 0;
-     var user_pregame_value = 0
+     var user_pregame_value = 0;
         $.ajax({
             type: 'GET',
             url: source,
@@ -146,7 +146,7 @@
                                     }
 
                                 var wkts_bonus = parseInt(final_json[i]['wkts_taken'])*25;
-                                var maiden_bonus = parseInt(final_json[i]['maidens'])*10;
+                                var maiden_bonus = parseInt(final_json[i]['maidens'])*30;
                                 var dot_bonus = parseInt(final_json[i]['dot_balls']);
                                 var econ_bonus = 0;
                                 var wkt_milestone_bonus = 0;
@@ -193,6 +193,7 @@
 
                                 user_pregame_value += final_json[i]['total_value_pre_game'];
                                 user_portfolio_value += final_json[i]['total_value_post_game'];
+                                console.log(final_json[i]['player_name'], runs_bonus, boundary_bonus, sr_bonus, milestone_bonus)
                             }
 
                             var tbl = $("<table class='w3-table w3-bordered' id='demandDetails'/>");
