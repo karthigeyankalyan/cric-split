@@ -34,20 +34,6 @@
                                 }
                             }
 
-                            var lookup = {};
-                            var result1 = [];
-
-                            for (var item, i = 0; item = final_json[i++];) {
-                              var name = item.user_name;
-
-                              if (!(name in lookup)) {
-                                lookup[name] = 1;
-                                result1.push(name);
-                              }
-                            }
-
-                            console.log(result1);
-
                             for (i = 0; i < final_json.length; i++) {
                                 var final_points = 0;
                                 if (final_json[i]['player_profile'] !== "Bowler" && final_json[i]['runs_scored'] === 0) {
@@ -156,6 +142,8 @@
                             res[value.user_id].points += value.final_points;
                             return res;
                             }, {});
+
+                        console.log(result);
 
                     },
                     error: function (e) {
