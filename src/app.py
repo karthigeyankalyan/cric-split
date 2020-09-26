@@ -143,6 +143,18 @@ def get_raw_teams(match_id, user_id):
     return all_credits
 
 
+@app.route('/raw_team_all/<string:match_id>')
+def get_raw_teams_by_match(match_id):
+    all_credit = []
+    all_credit_dict = Database.find("teams", {"match_id": match_id})
+    for tran in all_credit_dict:
+        all_credit.append(tran)
+
+    all_credits = json.dumps(all_credit, default=json_util.default)
+
+    return all_credits
+
+
 @app.route('/raw_teams_all')
 def get_raw_teams_all():
     all_credit = []
@@ -192,6 +204,15 @@ def view_team(match_id, user_id):
         return render_template('login_fail.html', user=user)
 
 
+@app.route('/view_team_algorithm/<string:match_id>/<string:user_id>')
+def view_team_algorithm(match_id, user_id):
+    user = User.get_by_id(user_id)
+    if user is not None:
+        return render_template('ViewTeamAlgorithm.html', user=user, match_id=match_id, user_id=user_id)
+    else:
+        return render_template('login_fail.html', user=user)
+
+
 @app.route('/view_matches/<string:user_id>')
 def view_matches(user_id):
     user = User.get_by_id(user_id)
@@ -201,11 +222,29 @@ def view_matches(user_id):
         return render_template('login_fail.html', user=user)
 
 
+@app.route('/view_matches_beaters/<string:user_id>')
+def view_matches_beaters(user_id):
+    user = User.get_by_id(user_id)
+    if user is not None:
+        return render_template('ViewMatchesBeaters.html', user=user, user_id=user_id)
+    else:
+        return render_template('login_fail.html', user=user)
+
+
 @app.route('/user_algorithm_comparison/<string:user_id>/<string:match_id>')
 def user_algorithm_comp(user_id, match_id):
     user = User.get_by_id(user_id)
     if user is not None:
         return render_template('user_algo_comparison.html', user=user, user_id=user_id, match_id=match_id)
+    else:
+        return render_template('login_fail.html', user=user)
+
+
+@app.route('/user_algorithm_comparison_beaters/<string:user_id>/<string:match_id>')
+def user_algorithm_comp_beaters(user_id, match_id):
+    user = User.get_by_id(user_id)
+    if user is not None:
+        return render_template('algo_beaters.html', user=user, user_id=user_id, match_id=match_id)
     else:
         return render_template('login_fail.html', user=user)
 
@@ -240,7 +279,7 @@ def view_market(team1, team2, match_id, user_id):
 
                 team = Team(player_id=player_id, team_name=team, shares_purchased=int(num_shares), match_id=match_id,
                             player_name=player_name, value_per_share=value_per_share, user_name=user.email,
-                            user_id=user._id)
+                            user_id=user_id)
 
                 team.save_to_mongo()
 

@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    #Search {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .button {
+        background-color: white;
+        border:  2px solid green;
+        border-radius: 5px;
+    }
+
+    a {
+        color: green;
+    }
+
+    a:hover {
+        color: green;
+        text-decoration: none;
+    }
+
+    #demandList {
+        margin-top: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 80%;
+        align-self: center;
+        justify-content: center;
+    }
+
+    td {
+        text-align: center;
+        align-items: center;
+        vertical-align: middle;
+    }
+
+</style>
+
+<body>
+    <div style="width: 700px; display: flex; flex-direction: row; align-items: center; justify-content: space-around; margin-top: 30px; margin-bottom: 30px">
+        <div style="flex: 1">
+        </div>
+        <div style="flex: 6">
+            <label for="myInput">Search by Player</label>
+            <input type="text" style="width: 400px;" id="myInput" onkeyup="myFunction()" placeholder="Search for players" title="Type in a name">
+        </div>
+        <div style="flex: 1">
+        </div>
+    </div>
+
+    <div id="demandList">
+    </div>
+
+
+</body>
+
+<script>
+     var source = "/raw_matches";
+        $.ajax({
+            type: 'GET',
+            url: source,
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (json) {
+                json = json.sort(function(a, b) {return a['Match ID'] - b['Match ID']});
+                    var tbl = $("<table class='w3-table w3-bordered' id='demandDetails'/>");
+                    $("#demandList").append(tbl);
+                    var hr = "<tr class='w3-red'>";
+                    var th1 = "<th style='text-align:center;vertical-align:middle'>" + "Match ID" + "</th>";
+                    var th2 = "<th style='text-align:center;vertical-align:middle'>" + "Team 1" + "</th>";
+                    var th3 = "<th style='text-align:center;vertical-align:middle'>" + "Team 2" + "</th>";
+                    var th4 = "<th style='text-align:center;vertical-align:middle'>" + "Date" + "</th>";
+                    var th5 = "<th style='text-align:center;vertical-align:middle'>" + "Performance Comparison" + "</th>";
+                    $("#demandDetails").append(hr + th1 + th2 + th3 + th4 + th5);
+                    for (var j = 0; j < json.length; j++) {
+                        var url = '/algorithm_beaters/{{user_id}}/'+json[j]['Match ID'];
+                        var tot_val_var = 'totValue'+j;
+                        var base_price_var = 'bPrice'+j;
+                        var max_share_var = 'mShare'+j;
+                        var player_var = 'player'+j;
+                        var id_var = 'id'+j;
+                        var row = $('<tr></tr>').html("<td style='text-align:center;vertical-align:middle' id='"+player_var+"'>" + json[j]['Match ID'] + '</td>' +
+                            "<td style='text-align:center;vertical-align:middle'>" + json[j]['Team'] + '</td>' +
+                            "<td style='text-align:center;vertical-align:middle'>" + json[j]['Team2'] + '</td>' +
+                            "<td style='text-align:center;vertical-align:middle' id='"+base_price_var+"'>" + moment(json[j]["Date"] + "-2020").format('DD/MM/YYYY') + '</td>' +
+                            '<td style="text-align:center;vertical-align:middle"><button class="button"><a href="' + url + '">'+ 'Algorithm Beaters' +'</a></button></td>');
+                        $("#demandDetails").append(row);
+                    }
+            },
+            error: function (e) {
+                alert("error");
+            }
+        });
+
+        function myFunction() {
+            var input, filter, table, tr, td, i;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("demandList");
+            tr = table.getElementsByTagName("tr");
+            console.log(tr.length);
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+</script>
+
+{% endblock %}

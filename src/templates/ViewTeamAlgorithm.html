@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    #Search {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    button {
+        background-color: green;
+        border-color: white;
+        border-radius: 10px;
+    }
+
+    a {
+        color: white;
+    }
+
+    a:hover {
+        color: white;
+        text-decoration: none;
+    }
+
+    #demandList {
+        margin-top: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 80%;
+        align-self: center;
+        justify-content: center;
+    }
+
+    td {
+        text-align: center;
+        align-items: center;
+        vertical-align: middle;
+    }
+
+</style>
+
+<body>
+    <div style="width: 700px; display: flex; flex-direction: row; align-items: center; justify-content: space-around; margin-top: 30px; margin-bottom: 30px">
+        <div style="flex: 1">
+        </div>
+        <div style="flex: 6">
+            <label for="myInput">Search by Player</label>
+            <input type="text" style="width: 400px;" id="myInput" onkeyup="myFunction()" placeholder="Search for players" title="Type in a name">
+        </div>
+        <div style="flex: 1">
+        </div>
+        <div style="margin: 0; position: relative; top: 50%; left: 50%;" id="reselectButton">
+            <button style="color: white" onclick="reselectTeam()">Reselect Team</button>
+        </div>
+    </div>
+
+    <div id="demandList">
+    </div>
+
+
+</body>
+
+<script>
+
+    document.getElementById('reselectButton').style.display = "none";
+
+     var source = "/raw_team/{{match_id}}/a7dd4b5335274c7e85afc79bfa251f89";
+        $.ajax({
+            type: 'GET',
+            url: source,
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (json) {
+                if (json.length > 0) {
+                    var tbl = $("<table class='w3-table w3-bordered' id='demandDetails'/>");
+                    $("#demandList").append(tbl);
+                    var hr = "<tr class='w3-red'>";
+                    var th1 = "<th style='text-align:center;vertical-align:middle'>" + "Match ID" + "</th>";
+                    var th2 = "<th style='text-align:center;vertical-align:middle'>" + "Player" + "</th>";
+                    var th3 = "<th style='text-align:center;vertical-align:middle'>" + "Team" + "</th>";
+                    var th4 = "<th style='text-align:center;vertical-align:middle'>" + "Base Price" + "</th>";
+                    var th5 = "<th style='text-align:center;vertical-align:middle'>" + "Shares Purchased" + "</th>";
+                    var th6 = "<th style='text-align:center;vertical-align:middle'>" + "Value" + "</th>";
+                    $("#demandDetails").append(hr + th1 + th2 + th3 + th4 + th5 + th6);
+                    for (var j = 0; j < json.length; j++) {
+                        var tot_val_var = 'totValue'+j;
+                        var base_price_var = 'bPrice'+j;
+                        var max_share_var = 'mShare'+j;
+                        var player_var = 'player'+j;
+                        var id_var = 'id'+j;
+                        var row = $('<tr></tr>').html("<td style='text-align:center;vertical-align:middle' id='"+player_var+"'>" + json[j]['match_id'] + '</td>' +
+                            "<td style='text-align:center;vertical-align:middle'>" + json[j]['player_name'] + '</td>' +
+                            "<td style='text-align:center;vertical-align:middle'>" + json[j]['team_name'] + '</td>' +
+                            "<td style='text-align:center;vertical-align:middle' id='"+base_price_var+"'>" + json[j]["value_per_share"] + '</td>' +
+                            "<td style='text-align:center;vertical-align:middle' id='"+max_share_var+"'>" + json[j]["shares_purchased"] + '</td>' +
+                            "<td style='text-align:center;vertical-align:middle'>" + parseInt(json[j]["shares_purchased"]) * parseInt(json[j]["value_per_share"]) + '</td>');
+                        $("#demandDetails").append(row);
+                    }
+                } else {
+                    if ("{{user_id}}" === "a7dd4b5335274c7e85afc79bfa251f89") {
+                        var result = confirm('Please check back at 7.00 PM IST on matchdays to see the team picked by the algorithm');
+                        if (result) {
+                            window.location.href = '/profile/{{user_id}}';
+                        }
+                    } else {
+                        result = confirm('You have not picked a team yet');
+                        if (result) {
+                            window.location.href = '/profile/{{user_id}}';
+                        }
+                    }
+                }
+            },
+            error: function (e) {
+                alert("error");
+            }
+        });
+
+        function reselectTeam() {
+            var result = confirm("Do you want to re-select your team?");
+            if ( result ) {
+                window.location.href = '/delete_team/{{match_id}}/{{user_id}}';
+            }
+        }
+
+        function myFunction() {
+            var input, filter, table, tr, td, i;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("demandList");
+            tr = table.getElementsByTagName("tr");
+            console.log(tr.length);
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+</script>
+
+{% endblock %}
