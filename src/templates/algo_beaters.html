@@ -225,6 +225,8 @@
 
                             var final_algo_portfolio_value = algo_post_value + (700000 - algo_pre_value);
 
+                            console.log(user_team);
+
                             var aggregatedData = d3.nest()
                                 .key(function (d) {
                                     return d.user_name;
