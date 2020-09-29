@@ -93,6 +93,7 @@
             contentType: "application/json",
             dataType: 'json',
             success: function (json) {
+                console.log(json);
                 $.ajax({
                     type: 'GET',
                     url: source1,
@@ -102,7 +103,6 @@
                         console.log(jsonFunc);
                         if (jsonFunc.length > 0) {
                             for(var i=0; i<json.length; i++) {
-                                console.log(json[i]['shares_purchased']);
                                 for(var j=0; j<jsonFunc.length; j++) {
                                     if (parseInt(json[i]['player_id']) === jsonFunc[j]['player_id']) {
                                         final_json.push(json[i]);
@@ -121,6 +121,8 @@
                                     }
                                 }
                             }
+
+                            console.log(final_json);
 
                             for (i=0; i< final_json.length; i++) {
                                 var final_points = 0;
