@@ -105,10 +105,19 @@
                             for(var i=0; i<json.length; i++) {
                                 for(var j=0; j<jsonFunc.length; j++) {
                                     if (parseInt(json[i]['player_id']) === jsonFunc[j]['player_id']) {
-                                        final_json.push(jsonFunc[j]);
-                                        final_json[final_json.length-1]['shares_purchased'] = json[i]['shares_purchased'];
-                                        final_json[final_json.length-1]['user_id'] = json[i]['user_id'];
-                                        final_json[final_json.length-1]['user_name'] = json[i]['user_name'];
+                                        final_json.push(json[i]);
+                                        final_json[final_json.length - 1]['balls_faced'] = jsonFunc[j]['balls_faced'];
+                                        final_json[final_json.length - 1]['runs_scored'] = jsonFunc[j]['runs_scored'];
+                                        final_json[final_json.length - 1]['fours'] = jsonFunc[j]['fours'];
+                                        final_json[final_json.length - 1]['sixes'] = jsonFunc[j]['sixes'];
+                                        final_json[final_json.length - 1]['player_profile'] = jsonFunc[j]['player_profile'];
+                                        final_json[final_json.length - 1]['wkts_taken'] = jsonFunc[j]['wkts_taken'];
+                                        final_json[final_json.length - 1]['overs'] = jsonFunc[j]['overs'];
+                                        final_json[final_json.length - 1]['maidens'] = jsonFunc[j]['maidens'];
+                                        final_json[final_json.length - 1]['dot_balls'] = jsonFunc[j]['dot_balls'];
+                                        final_json[final_json.length - 1]['runs_conceded'] = jsonFunc[j]['runs_conceded'];
+                                        final_json[final_json.length - 1]['value_per_share'] = jsonFunc[j]['value_per_share'];
+                                        final_json[final_json.length - 1]['shares_purchased'] = jsonFunc[j]['shares_purchased'];
                                     }
                                 }
                             }
@@ -211,9 +220,11 @@
                             for (i=0; i< algo_team.length; i++) {
                                 algo_points += algo_team[i]['final_points'];
                             }
-
-                            console.log(user_team);
                             console.log(algo_points);
+
+                            for (i=0; i< user_team.length; i++) {
+                                console.log(user_team[i]['user_name']);
+                            }
 
                             var aggregatedData = d3.nest()
                                 .key(function (d) {
