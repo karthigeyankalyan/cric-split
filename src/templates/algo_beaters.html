@@ -64,13 +64,15 @@
 
     <input id="v1" style="display: none">
     <input id="v2" style="display: none">
+    
+    <p id="algoPFValue"></p>
 
     <div id="demandList">
-        <p id="yourTeam"></p>
+        <p id="yourTeam">Beaters</p>
     </div>
 
     <div id="demandList2">
-        <p id="algoTeam"></p>
+        <p id="algoTeam">Losers</p>
     </div>
 
 <input type="number" id="user_tot_value" style="display: none;">
@@ -221,6 +223,8 @@
 
                             var final_algo_portfolio_value = algo_post_value + (700000 - algo_pre_value);
                             
+                            document.getElementById('algoPFValue').innerHTML = "Algorithm Final Portfolio Value:" + addComma(final_algo_portfolio_value);
+
                             console.log(final_algo_portfolio_value);
 
                             var aggregatedData = d3.nest()
@@ -254,34 +258,31 @@
                             var tbl = $("<table class='w3-table w3-bordered' id='demandDetails'/>");
                             $("#demandList").append(tbl);
                             var hr = "<tr class='w3-red'>";
-                            var th1 = "<th style='text-align:center;vertical-align:middle'>" + "Match ID" + "</th>";
-                            var th2 = "<th style='text-align:center;vertical-align:middle'>" + "Player" + "</th>";
+                            var th2 = "<th style='text-align:center;vertical-align:middle'>" + "User" + "</th>";
                             var th3 = "<th style='text-align:center;vertical-align:middle'>" + "Points" + "</th>";
-                            var th4 = "<th style='text-align:center;vertical-align:middle'>" + "Base Price" + "</th>";
-                            var th5 = "<th style='text-align:center;vertical-align:middle'>" + "Number of Shares" + "</th>";
-                            var th6 = "<th style='text-align:center;vertical-align:middle'>" + "Pre Game Value" + "</th>";
-                            var th7 = "<th style='text-align:center;vertical-align:middle'>" + "Post Game Value" + "</th>";
-                            var th8 = "<th style='text-align:center;vertical-align:middle'>" + "Value Change" + "</th>";
-                            $("#demandDetails").append(hr + th1 + th2 + th3 + th4 + th5 + th6 + th7 + th8);
-                            for (j = 0; j < final_json.length; j++) {
-                                var post_game_value_id = 'user'+j;
-                                var row = $('<tr></tr>').html("<td style='text-align:center;vertical-align:middle'>" + final_json[j]['match_id'] + '</td>' +
-                                    "<td style='text-align:center;vertical-align:middle'>" + final_json[j]['player_name'] + '</td>' +
-                                    "<td style='text-align:center;vertical-align:middle'>" + final_json[j]['final_points'] + '</td>' +
-                                    "<td style='text-align:center;vertical-align:middle'>" + final_json[j]['value_per_share'] + '</td>' +
-                                    "<td style='text-align:center;vertical-align:middle'>" + final_json[j]['shares_purchased'] + '</td>' +
-                                    "<td style='text-align:center;vertical-align:middle'>" + addComma(final_json[j]['total_value_pre_game']) + '</td>' +
-                                    "<td style='text-align:center;vertical-align:middle' id='"+post_game_value_id+"'>" + addComma(final_json[j]['total_value_post_game'])  + '</td>'+
-                                    "<td style='text-align:center;vertical-align:middle' id='value_change'>" + ((final_json[j]['total_value_post_game'] - final_json[j]['total_value_pre_game']) * 100 / final_json[j]['total_value_pre_game']).toFixed(2) + " %" + '</td>');
+                            $("#demandDetails").append(hr + th2 + th3);
+                            for (j = 0; j < beaters.length; j++) {
+                                var row = $('<tr></tr>').html("<td style='text-align:center;vertical-align:middle'>" + beaters[j]['user'] + '</td>' +
+                                    "<td style='text-align:center;vertical-align:middle'>" + beaters[j]['portfolio_value'] + '</td>');
                                 $("#demandDetails").append(row);
                             }
+
+                            var tbl1 = $("<table class='w3-table w3-bordered' id='demandDetails2'/>");
+                            $("#demandList2").append(tbl1);
+                            var hr1 = "<tr class='w3-red'>";
+                            var th12 = "<th style='text-align:center;vertical-align:middle'>" + "User" + "</th>";
+                            var th13 = "<th style='text-align:center;vertical-align:middle'>" + "Points" + "</th>";
+                            $("#demandDetails2").append(hr1 + th12 + th13);
+                            for (j = 0; j < losers.length; j++) {
+                                var row2 = $('<tr></tr>').html("<td style='text-align:center;vertical-align:middle'>" + losers[j]['user'] + '</td>' +
+                                    "<td style='text-align:center;vertical-align:middle'>" + losers[j]['portfolio_value'] + '</td>');
+                                $("#demandDetails2").append(row2);
+                            }
+
                         } else {
                             alert('Results will be updated within 12 hours of game completion.')
                         }
                     },
-                    complete: function (e) {
-                        post_ajax(user_portfolio_value, user_pregame_value);
-                        },
                     error: function (e) {
                         alert("Results will be available the day after the game is played.");
                     }
@@ -291,22 +292,6 @@
                 alert("error");
             }
         });
-
-        function post_ajax(user_value, user_pregame_value) {
-            document.getElementById('yourTeam').innerHTML = "Your Team - Final Portfolio Value - "+ addComma(parseInt(user_value) + (700000 - parseInt(user_pregame_value))) + " INR";
-            document.getElementById('v1').value = user_value;
-            var user_pf_value = parseInt(document.getElementById('v1').value);
-            document.getElementById('user_tot_value').value = (parseInt(user_value) + (700000 - parseInt(user_pregame_value)));
-            var algo_pf_value = parseInt(user_value);
-
-            if (user_pf_value >= algo_pf_value && algo_pf_value !==0) {
-                document.getElementById('valueComparison').innerHTML = "You beat Computer-Ji by "+addComma(user_pf_value-algo_pf_value)+" INR";
-            } else if (user_pf_value < algo_pf_value) {
-                document.getElementById('valueComparison').innerHTML = "You lost to Computer-Ji by "+addComma(algo_pf_value - user_pf_value)+" INR";
-            } else {
-                document.getElementById('valueComparison').innerHTML = "Game Data has not been updated yet.";
-            }
-        }
 
         function myFunction() {
             var input, filter, table, tr, td, i;
