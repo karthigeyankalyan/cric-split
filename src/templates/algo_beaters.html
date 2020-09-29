@@ -57,15 +57,13 @@
 <body>
     <div style="width: 80%; display: flex; flex-direction: row; align-items: center; justify-content: space-around; margin-top: 30px; margin-bottom: 30px">
         <div style="margin-left: auto; margin-right: auto;">
-            <h3 id="valueComparison"></h3>
+            <h3 id="algoPFValue"></h3>
         </div>
     </div>
 
 
     <input id="v1" style="display: none">
     <input id="v2" style="display: none">
-    
-    <p id="algoPFValue"></p>
 
     <div id="demandList">
         <p id="yourTeam">Beaters</p>
@@ -222,7 +220,7 @@
                             }
 
                             var final_algo_portfolio_value = algo_post_value + (700000 - algo_pre_value);
-                            
+
                             document.getElementById('algoPFValue').innerHTML = "Algorithm Final Portfolio Value:" + addComma(final_algo_portfolio_value);
 
                             console.log(final_algo_portfolio_value);
@@ -263,7 +261,7 @@
                             $("#demandDetails").append(hr + th2 + th3);
                             for (j = 0; j < beaters.length; j++) {
                                 var row = $('<tr></tr>').html("<td style='text-align:center;vertical-align:middle'>" + beaters[j]['user'] + '</td>' +
-                                    "<td style='text-align:center;vertical-align:middle'>" + beaters[j]['portfolio_value'] + '</td>');
+                                    "<td style='text-align:center;vertical-align:middle'>" + addComma(beaters[j]['portfolio_value']) + '</td>');
                                 $("#demandDetails").append(row);
                             }
 
@@ -275,7 +273,7 @@
                             $("#demandDetails2").append(hr1 + th12 + th13);
                             for (j = 0; j < losers.length; j++) {
                                 var row2 = $('<tr></tr>').html("<td style='text-align:center;vertical-align:middle'>" + losers[j]['user'] + '</td>' +
-                                    "<td style='text-align:center;vertical-align:middle'>" + losers[j]['portfolio_value'] + '</td>');
+                                    "<td style='text-align:center;vertical-align:middle'>" + addComma(losers[j]['portfolio_value']) + '</td>');
                                 $("#demandDetails2").append(row2);
                             }
 
