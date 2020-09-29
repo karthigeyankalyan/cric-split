@@ -243,11 +243,13 @@
                             var beaters = [];
                             var losers = [];
 
+                            console.log(aggregatedData);
+
                             for (i = 0; i < aggregatedData.length; i++) {
                                 if(aggregatedData[i].values[0].values['post_game'] + parseInt(700000 - aggregatedData[i].values[0].values['pre_game']) >= final_algo_portfolio_value) {
                                     beaters.push({'user': aggregatedData[i].key, 'portfolio_value': aggregatedData[i].values[0].values['post_game'] + parseInt(700000 - aggregatedData[i].values[0].values['pre_game'])});
                                 } else {
-                                    losers.push({'user': aggregatedData[i].key, 'portfolio_value': aggregatedData[i].values[0].values['total_points']});
+                                    losers.push({'user': aggregatedData[i].key, 'portfolio_value': aggregatedData[i].values[0].values['post_game'] + parseInt(700000 - aggregatedData[i].values[0].values['pre_game'])});
                                 }
                             }
 
