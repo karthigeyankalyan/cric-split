@@ -84,6 +84,7 @@
      var source1 = "/raw_players_by_match/{{match_id}}";
      var final_json = [];
      var algo_team = [];
+     var user_team = [];
      var user_portfolio_value = 0;
      var user_pregame_value = 0;
         $.ajax({
@@ -200,9 +201,19 @@
                                 if (final_json[i]['user_name'] === 'algorithm') {
                                     algo_team.push(final_json[i]);
                                 }
+                                if (final_json[i]['user_name'] !== 'algorithm') {
+                                    user_team.push(final_json[i]);
+                                }
                             }
 
+                            var algo_points = 0;
 
+                            for (i=0; i< algo_team.length; i++) {
+                                algo_points += algo_team[i]['final_points'];
+                            }
+
+                            console.log(user_team);
+                            console.log(algo_points);
 
                             var aggregatedData = d3.nest()
                                 .key(function (d) {
@@ -216,8 +227,20 @@
                                         "total_points": d3.sum(leaves, function (d) {return d.final_points;})
                                     }
                                 })
-                                .entries(final_json);
+                                .entries(user_team);
 
+                            var beaters = [];
+                            var losers = [];
+
+                            for (i = 0; i < aggregatedData.length; i++) {
+                                if(aggregatedData[i].values[0].values['total_points'] >= algo_points) {
+                                    beaters.push({'user': aggregatedData[i].key, 'points': aggregatedData[i].values[0].values['total_points']});
+                                } else {
+                                    losers.push({'user': aggregatedData[i].key, 'points': aggregatedData[i].values[0].values['total_points']});
+                                }
+                            }
+
+                            console.log(beaters, losers);
 
                             var tbl = $("<table class='w3-table w3-bordered' id='demandDetails'/>");
                             $("#demandList").append(tbl);
