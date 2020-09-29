@@ -93,14 +93,12 @@
             contentType: "application/json",
             dataType: 'json',
             success: function (json) {
-                console.log(json);
                 $.ajax({
                     type: 'GET',
                     url: source1,
                     contentType: "application/json",
                     dataType: 'json',
                     success: function (jsonFunc) {
-                        console.log(jsonFunc);
                         if (jsonFunc.length > 0) {
                             for(var i=0; i<json.length; i++) {
                                 for(var j=0; j<jsonFunc.length; j++) {
@@ -120,9 +118,6 @@
                                     }
                                 }
                             }
-
-                            console.log(final_json);
-
                             for (i=0; i< final_json.length; i++) {
                                 var final_points = 0;
                                 if (final_json[i]['player_profile'] !== "Bowler" && final_json[i]['runs_scored'] === 0) {
@@ -225,8 +220,8 @@
                             }
 
                             var final_algo_portfolio_value = algo_post_value + (700000 - algo_pre_value);
-
-                            console.log(user_team);
+                            
+                            console.log(final_algo_portfolio_value);
 
                             var aggregatedData = d3.nest()
                                 .key(function (d) {
@@ -245,8 +240,6 @@
 
                             var beaters = [];
                             var losers = [];
-
-                            console.log(aggregatedData);
 
                             for (i = 0; i < aggregatedData.length; i++) {
                                 if(aggregatedData[i].values[0].values['post_game'] + parseInt(700000 - aggregatedData[i].values[0].values['pre_game']) >= final_algo_portfolio_value) {
