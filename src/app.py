@@ -275,8 +275,6 @@ def view_market(team1, team2, match_id, user_id):
                     team = p['Team']
                     value_per_share = int(p['Base price'])
 
-                print(team, value_per_share)
-
                 team = Team(player_id=player_id, team_name=team, shares_purchased=int(num_shares), match_id=match_id,
                             player_name=player_name, value_per_share=value_per_share, user_name=user.email,
                             user_id=user_id)
