@@ -195,7 +195,7 @@
                         .html(
                             '<div style="display: flex;">' +
                             '<input class="amount" type="number" id='+player_id_var+' name='+player_id_var+' value='+(player_id)+'>' +
-                            '<input class="amount" type="number" id='+num_shares_form_var+' name='+num_shares_form_var+' value='+(num_shares_loop_var)+'>' +
+                            '<input class="amount" type="number" id='+num_shares_form_var+' name='+num_shares_form_var+' value='+((num_shares_loop_var * mShare_loop_var)/100)+'>' +
                             '<input class="amount" type="text" id='+player_name_var+' name='+player_name_var+'>' +
                             '<input class="amount" type="number" id='+value_form_var+' name='+value_form_var+' value='+(player_value)+'>' +
                             '</div>');
