@@ -199,7 +199,6 @@
                     document.getElementById('numPlayers').value = player_counter;
                 }
             }
-            console.log(parseInt("{{user.budget_remaining}}").toFixed(0), parseInt(total_purchased_value));
             document.getElementById('budRemaining').innerHTML = (parseInt(parseInt("{{user.budget_remaining}}").toFixed(0)) - parseInt(total_purchased_value)) + " INR";
             var bud_remaining = parseInt(parseInt("{{user.budget_remaining}}").toFixed(0)) - parseInt(total_purchased_value);
             if (bud_remaining < 0) {
