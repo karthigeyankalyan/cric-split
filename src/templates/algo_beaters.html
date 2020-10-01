@@ -261,7 +261,7 @@
                             $("#demandDetails").append(hr + th2 + th3);
                             for (j = 0; j < beaters.length; j++) {
                                 var row = $('<tr></tr>').html("<td style='text-align:center;vertical-align:middle'>" + beaters[j]['user'] + '</td>' +
-                                    "<td style='text-align:center;vertical-align:middle'>" + addComma(beaters[j]['portfolio_value'].toFixed(1)) + '</td>');
+                                    "<td style='text-align:center;vertical-align:middle'>" + addComma(beaters[j]['portfolio_value'].toFixed(0)) + '</td>');
                                 $("#demandDetails").append(row);
                             }
 
@@ -273,7 +273,7 @@
                             $("#demandDetails2").append(hr1 + th12 + th13);
                             for (j = 0; j < losers.length; j++) {
                                 var row2 = $('<tr></tr>').html("<td style='text-align:center;vertical-align:middle'>" + losers[j]['user'] + '</td>' +
-                                    "<td style='text-align:center;vertical-align:middle'>" + addComma(losers[j]['portfolio_value'].toFixed(1)) + '</td>');
+                                    "<td style='text-align:center;vertical-align:middle'>" + addComma(losers[j]['portfolio_value'].toFixed(0)) + '</td>');
                                 $("#demandDetails2").append(row2);
                             }
 
