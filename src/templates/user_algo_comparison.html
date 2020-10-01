@@ -216,7 +216,7 @@
                                     "<td style='text-align:center;vertical-align:middle'>" + final_json[j]['value_per_share'] + '</td>' +
                                     "<td style='text-align:center;vertical-align:middle'>" + final_json[j]['shares_purchased'] + '</td>' +
                                     "<td style='text-align:center;vertical-align:middle'>" + addComma(final_json[j]['total_value_pre_game']) + '</td>' +
-                                    "<td style='text-align:center;vertical-align:middle' id='"+post_game_value_id+"'>" + addComma(final_json[j]['total_value_post_game'])  + '</td>'+
+                                    "<td style='text-align:center;vertical-align:middle' id='"+post_game_value_id+"'>" + addComma(final_json[j]['total_value_post_game'].toFixed(1))  + '</td>'+
                                     "<td style='text-align:center;vertical-align:middle' id='value_change'>" + ((final_json[j]['total_value_post_game'] - final_json[j]['total_value_pre_game']) * 100 / final_json[j]['total_value_pre_game']).toFixed(2) + " %" + '</td>');
                                 $("#demandDetails").append(row);
                             }
@@ -391,7 +391,7 @@ function algoTeam() {
                                     "<td style='text-align:center;vertical-align:middle'>" + final_json_algo[j]['value_per_share'] + '</td>' +
                                     "<td style='text-align:center;vertical-align:middle'>" + final_json_algo[j]['shares_purchased'] + '</td>' +
                                     "<td style='text-align:center;vertical-align:middle'>" + addComma(final_json_algo[j]['total_value_pre_game']) + '</td>' +
-                                    "<td style='text-align:center;vertical-align:middle' id='"+post_game_value_id_algo+"'>" + addComma(final_json_algo[j]['total_value_post_game'])  + '</td>'+
+                                    "<td style='text-align:center;vertical-align:middle' id='"+post_game_value_id_algo+"'>" + addComma(final_json_algo[j]['total_value_post_game'].toFixed(1))  + '</td>'+
                                     "<td style='text-align:center;vertical-align:middle' id='value_change'>" + ((final_json_algo[j]['total_value_post_game'] - final_json_algo[j]['total_value_pre_game']) * 100 / final_json_algo[j]['total_value_pre_game']).toFixed(2) + " %" + '</td>');
                                 $("#demandDetails2").append(row);
                             }
