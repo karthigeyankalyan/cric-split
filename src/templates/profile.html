@@ -142,42 +142,15 @@ a:hover {
         <div class="container">
           <div class="tile job">
             <div class="header">
-              <div id="mvdvisits" class="count">Kings XI v/s Indians</div>
-              <div id="mvdname" class="sub">1st October, 2020</div>
-              <div id="mvdvenue" class="sub">Deadline</div>
-              <div id="demo" class="sub"></div>
-            </div>
-            <div class="body">
-              <div id="mvdtitle" class="title">
-                  <span>
-                      <a id="game1" href="/ViewMarket/{{user._id}}/Kings XI/Indians/1313">
-                          Pick Team
-                      </a>
-                      <b>|</b>
-                      <a href="/view_team/1313/{{user._id}}">
-                          View Team
-                      </a>
-                      <b>|</b>
-                      <a href="/view_team_algorithm/1313/{{user._id}}">
-                          ComputerJi's Team
-                      </a>
-                  </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="container">
-          <div class="tile job">
-            <div class="header">
               <div id="mvdvisits1" class="count">Super Kings v/s Sunrisers</div>
               <div id="mvdname1" class="sub">2nd October, 2020</div>
               <div id="mvdvenue1" class="sub">Deadline</div>
-              <div id="demo1" class="sub"></div>
+              <div id="demo" class="sub"></div>
             </div>
             <div class="body">
               <div id="mvdtitle1" class="title">
                   <span>
-                      <a id="game" href="/ViewMarket/{{user._id}}/Super Kings/Sunrisers/1314">
+                      <a id="game1" href="/ViewMarket/{{user._id}}/Super Kings/Sunrisers/1314">
                           Pick Team
                       </a>
                       <b>|</b>
@@ -199,7 +172,7 @@ a:hover {
               <div id="mvdvisits1" class="count">Royal Challengers v/s Royals</div>
               <div id="mvdname1" class="sub">3rd October, 2020</div>
               <div id="mvdvenue1" class="sub">Deadline</div>
-              <div id="demo2" class="sub"></div>
+              <div id="demo1" class="sub"></div>
             </div>
             <div class="body">
               <div id="mvdtitle1" class="title">
@@ -213,6 +186,33 @@ a:hover {
                       </a>
                       <b>|</b>
                       <a href="/view_team_algorithm/1315/{{user._id}}">
+                          ComputerJi's Team
+                      </a>
+                  </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="tile job">
+            <div class="header">
+              <div id="mvdvisits" class="count">Capitals v/s Knight Riders</div>
+              <div id="mvdname" class="sub">3rd October, 2020</div>
+              <div id="mvdvenue" class="sub">Deadline</div>
+              <div id="demo2" class="sub"></div>
+            </div>
+            <div class="body">
+              <div id="mvdtitle" class="title">
+                  <span>
+                      <a id="game" href="/ViewMarket/{{user._id}}/Capitals/Knight Riders/1316">
+                          Pick Team
+                      </a>
+                      <b>|</b>
+                      <a href="/view_team/1316/{{user._id}}">
+                          View Team
+                      </a>
+                      <b>|</b>
+                      <a href="/view_team_algorithm/1316/{{user._id}}">
                           ComputerJi's Team
                       </a>
                   </span>
@@ -262,7 +262,7 @@ a:hover {
 
 <script>
     // Set the date we're counting down to
-var countDownDate = new Date("Oct 1, 2020 19:30:00").getTime();
+var countDownDate = new Date("Oct 2, 2020 19:30:00").getTime();
 // Update the count down every 1 second
 var x = setInterval(function() {
 
@@ -281,9 +281,9 @@ var x = setInterval(function() {
   // Output the result in an element with id="demo"
   document.getElementById("demo").innerHTML = days + "d " + hours + "h "
   + minutes + "m " + seconds + "s ";
-  document.getElementById("demo1").innerHTML = (days + 1) + "d " + hours + "h "
+  document.getElementById("demo1").innerHTML = (days + 1) + "d " + (hours-4) + "h "
   + minutes + "m " + seconds + "s ";
-  document.getElementById("demo2").innerHTML = (days + 2) + "d " + hours + "h "
+  document.getElementById("demo2").innerHTML = (days + 2) + "d " + (hours) + "h "
   + minutes + "m " + seconds + "s ";
 
   // If the count down is over, write some text
