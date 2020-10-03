@@ -186,6 +186,7 @@
                                 if (final_json[i]['player_profile'] !== "Bowler" && final_json[i]['runs_scored'] === 0 && final_json[i]['out'] === 1) {
                                     final_points -= 20
                                 }
+                                final_json[i]['final_points'] = final_points;
 
                                 final_json[i]['new_value_per_share'] = final_json[i]['value_per_share'] + (final_points - reference_points);
                                 final_json[i]['total_value_post_game'] = final_json[i]['new_value_per_share'] * final_json[i]['shares_purchased'];
