@@ -111,9 +111,6 @@
 
                             for (i=0; i< final_json.length; i++) {
                                 var final_points = 0;
-                                if (final_json[i]['player_profile'] !== "Bowler" && final_json[i]['runs_scored'] === 0) {
-                                    final_points -= 20
-                                }
                                 var runs_bonus = final_json[i]['runs_scored'];
                                 var boundary_bonus =  final_json[i]['fours']*2 + final_json[i]['sixes']*3;
                                 var strike_rate = (final_json[i]['runs_scored'] / final_json[i]['balls_faced']) * 100;
@@ -183,8 +180,11 @@
                                 final_json[i]['final_points'] = final_points;
                                 var reference_points = final_json[i]['value_per_share'] / 20;
 
-                                if (final_json[i]['overs'] === 0 && final_json[i]['balls_faced'] === 0) {
+                                if (final_json[i]['overs'] === 0 && final_json[i]['balls_faced'] === 0 && final_json[i]['out'] === 0) {
                                     reference_points = 0;
+                                }
+                                if (final_json[i]['player_profile'] !== "Bowler" && final_json[i]['runs_scored'] === 0 && final_json[i]['out'] === 1) {
+                                    final_points -= 20
                                 }
 
                                 final_json[i]['new_value_per_share'] = final_json[i]['value_per_share'] + (final_points - reference_points);
@@ -193,6 +193,7 @@
 
                                 user_pregame_value += final_json[i]['total_value_pre_game'];
                                 user_portfolio_value += final_json[i]['total_value_post_game'];
+
                             }
 
                             console.log(final_json);
