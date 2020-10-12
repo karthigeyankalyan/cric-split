@@ -5,9 +5,10 @@ from src.common.database import Database
 
 class Player(object):
 
-    def __init__(self, player_id, player_name, value_per_share, max_share_cap, player_profile, match_id, motm,
+    def __init__(self, player_id, player_name, value_per_share, max_share_cap, player_profile, match_id,
                  runs_scored, balls_faced, runs_conceded, overs, balls_bowled, wkts_taken, maidens, dot_balls,
-                 catches_taken, run_outs, stumpings, points_scored, value_change, _id=None, fours=None, sixes=None):
+                 catches_taken=None, run_outs=None, stumpings=None, points_scored=None, value_change=None,
+                 _id=None, fours=None, sixes=None, motm=None):
         self.player_id = player_id
         self.player_profile = player_profile
         self.player_name = player_name

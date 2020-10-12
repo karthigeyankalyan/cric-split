@@ -3,6 +3,9 @@ from flask import Flask, render_template, request, session, json
 from src.models.user import User
 from src.common.database import Database
 from src.models.teams import Team
+from src.models.player import Player
+import csv
+from io import StringIO
 
 app = Flask(__name__)
 app.secret_key = "commercial"
@@ -249,6 +252,47 @@ def user_algorithm_comp_beaters(user_id, match_id):
         return render_template('login_fail.html', user=user)
 
 
+@app.route('/paste_scores/<string:user_id>/<string:match_id>')
+def convert_csv(user_id, match_id):
+    user = User.get_by_id(user_id)
+    csv_string = """player_name,runs_scored,balls_faced,fours,sixes,overs,maidens,runs_conceded,dot_balls,wkts_taken,player_profile,match_id,value_per_share,max_share_cap,player_id,out\nPP Shaw,4,3,1,0,0,0,0,0,0,Batsman,1327,800,125,312,1\nS Dhawan,69,52,6,1,0,0,0,0,0,Batsman,1327,900,110,300,1\nAM Rahane,15,15,3,0,0,0,0,0,0,Batsman,1327,600,165,310,1
+SS Iyer,42,33,5,0,0,0,0,0,0,Batsman,1327,900,110,303,1
+MP Stoinis,13,8,2,0,3,0,31,2,1,Batsman,1327,900,110,113,0
+AT Carey,14,9,0,0,0,0,0,0,0,Wicket keeper,1327,600,165,308,1
+RG Sharma,5,12,0,0,0,0,0,0,0,Batsman,1327,1000,100,602,1
+Q de Kock,53,36,4,3,0,0,0,0,0,Wicket keeper,1327,800,125,604,0
+SA Yadav,53,32,6,1,0,0,0,0,0,Batsman,1327,800,125,606,1
+Ishan Kishan,28,15,2,2,0,0,0,0,0,Wicket keeper,1327,600,165,613,1
+HH Pandya,0,2,0,0,0,0,0,0,0,All rounder,1327,1000,100,601,1
+KA Pollard,11,14,1,0,1,0,10,0,0,Batsman,1327,900,110,603,1
+KH Pandya,12,7,2,0,4,0,26,8,2,All rounder,1327,800,125,605,1
+K Rabada,0,0,0,0,4,0,28,13,2,Bowler,1327,1000,100,302,0
+A Nortje,0,0,0,0,4,0,28,11,0,Bowler,1327,700,140,322,0
+AR Patel,0,0,0,0,3,0,24,6,1,All rounder,1327,700,140,311,0
+R Ashwin,0,0,0,0,4,0,35,4,1,Bowler,1327,900,110,304,0
+HV Patel,0,0,0,0,2,0,20,1,0,Bowler,1327,600,165,318,0
+TA Boult,0,0,0,0,4,0,36,9,1,Bowler,1327,800,125,610,0
+JL Pattinson,0,0,0,0,3,0,37,6,0,Bowler,1327,800,125,624,0
+JJ Bumrah,0,0,0,0,4,0,26,7,0,Bowler,1327,1000,100,600,0
+RD Chahar,0,0,0,0,4,0,27,3,0,Bowler,1327,800,125,608,0
+"""
+    reader = csv.DictReader(StringIO(csv_string))
+    json_data = json.dumps(list(reader))
+    final_json = json.loads(json_data)
+
+    for j in final_json:
+        player = Player(player_id=j['player_id'], match_id=j['match_id'], player_name=j['player_name'],
+                        value_per_share=j['value_per_share'], balls_faced=j['balls_faced'],
+                        runs_scored=j['runs_scored'], fours=j['fours'], sixes=j['sixes'], overs=j['overs'],
+                        maidens=j['maidens'], runs_conceded=j['runs_conceded'], dot_balls=j['dot_balls'],
+                        wkts_taken=j['wkts_taken'], player_profile=j['player_profile'],
+                        max_share_cap=j['max_share_cap'], balls_bowled=int(j['overs'])*6)
+
+        player.save_to_mongo()
+
+    return render_template('shares_purchased_new.html')
+
+
 @app.route('/ViewMarket/<string:user_id>/<string:team1>/<string:team2>/<string:match_id>', methods=['POST', 'GET'])
 def view_market(team1, team2, match_id, user_id):
     user = User.get_by_id(user_id)
@@ -286,7 +330,7 @@ def view_market(team1, team2, match_id, user_id):
     else:
         return render_template('login_fail.html', user=user)
 
-#
+
 # @app.route('/buy_player/<string:player_id>', methods=['POST', 'GET'])
 # def buy_player(player_id):
 #     email = session['email']
