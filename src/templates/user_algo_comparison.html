@@ -102,7 +102,7 @@
                         if (jsonFunc.length > 0) {
                             for(var i=0; i<json.length; i++) {
                                 for(var j=0; j<jsonFunc.length; j++) {
-                                    if (parseInt(json[i]['player_id']) === jsonFunc[j]['player_id']) {
+                                    if (parseInt(json[i]['player_id']) === parseInt(jsonFunc[j]['player_id'])) {
                                         final_json.push(jsonFunc[j]);
                                         final_json[final_json.length-1]['shares_purchased'] = json[i]['shares_purchased'];
                                     }
@@ -281,7 +281,7 @@ function algoTeam() {
                         if (jsonFunc.length > 0) {
                             for(var i=0; i<json.length; i++) {
                                 for(var j=0; j<jsonFunc.length; j++) {
-                                    if (parseInt(json[i]['player_id']) === jsonFunc[j]['player_id']) {
+                                    if (parseInt(json[i]['player_id']) === parseInt(jsonFunc[j]['player_id'])) {
                                         final_json_algo.push(jsonFunc[j]);
                                         final_json_algo[final_json_algo.length-1]['shares_purchased'] = json[i]['shares_purchased'];
                                     }

@@ -257,7 +257,7 @@ def convert_csv(user_id, match_id):
     user = User.get_by_id(user_id)
 
     Database.delete_from_mongo(collection='player', query={'match_id': 1327})
-    
+
     csv_string = """player_name,runs_scored,balls_faced,fours,sixes,overs,maidens,runs_conceded,dot_balls,wkts_taken,player_profile,match_id,value_per_share,max_share_cap,player_id,out\nPP Shaw,4,3,1,0,0,0,0,0,0,Batsman,1327,800,125,312,1\nS Dhawan,69,52,6,1,0,0,0,0,0,Batsman,1327,900,110,300,1\nAM Rahane,15,15,3,0,0,0,0,0,0,Batsman,1327,600,165,310,1
 SS Iyer,42,33,5,0,0,0,0,0,0,Batsman,1327,900,110,303,1
 MP Stoinis,13,8,2,0,3,0,31,2,1,Batsman,1327,900,110,113,0
@@ -286,8 +286,8 @@ RD Chahar,0,0,0,0,4,0,27,3,0,Bowler,1327,800,125,608,0
     for j in final_json:
         player = Player(player_id=j['player_id'], match_id=int(j['match_id']), player_name=j['player_name'],
                         value_per_share=int(j['value_per_share']), balls_faced=int(j['balls_faced']),
-                        runs_scored=int(j['runs_scored']), fours=int(j['fours']), sixes=int(j['sixes']), 
-                        overs=int(j['overs']), maidens=int(j['maidens']), runs_conceded=int(j['runs_conceded']), 
+                        runs_scored=int(j['runs_scored']), fours=int(j['fours']), sixes=int(j['sixes']),
+                        overs=int(j['overs']), maidens=int(j['maidens']), runs_conceded=int(j['runs_conceded']),
                         dot_balls=int(j['dot_balls']),
                         wkts_taken=int(j['wkts_taken']), player_profile=j['player_profile'],
                         max_share_cap=int(j['max_share_cap']), balls_bowled=int(j['overs'])*6)

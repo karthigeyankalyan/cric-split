@@ -102,7 +102,7 @@
                         if (jsonFunc.length > 0) {
                             for(var i=0; i<json.length; i++) {
                                 for(var j=0; j<jsonFunc.length; j++) {
-                                    if (parseInt(json[i]['player_id']) === jsonFunc[j]['player_id']) {
+                                    if (parseInt(json[i]['player_id']) === parseInt(jsonFunc[j]['player_id'])) {
                                         final_json.push(json[i]);
                                         final_json[final_json.length - 1]['balls_faced'] = jsonFunc[j]['balls_faced'];
                                         final_json[final_json.length - 1]['runs_scored'] = jsonFunc[j]['runs_scored'];
@@ -118,6 +118,9 @@
                                     }
                                 }
                             }
+
+                            console.log(final_json);
+
                             for (i=0; i< final_json.length; i++) {
                                 var final_points = 0;
                                 var runs_bonus = final_json[i]['runs_scored'];
