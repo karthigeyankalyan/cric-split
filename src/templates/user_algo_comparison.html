@@ -288,6 +288,8 @@ function algoTeam() {
                                 }
                             }
 
+                            console.log(final_json_algo);
+
                             for (i=0; i< final_json_algo.length; i++) {
                                 var final_points = 0;
                                 var runs_bonus = final_json_algo[i]['runs_scored'];
@@ -392,7 +394,6 @@ function algoTeam() {
                             var th8 = "<th style='text-align:center;vertical-align:middle'>" + "Value Change" + "</th>";
                             $("#demandDetails2").append(hr + th1 + th2 + th3 + th4 + th5 + th6 + th7 + th8);
                             for (j = 0; j < final_json_algo.length; j++) {
-                                console.log(final_json_algo);
                                 var post_game_value_id_algo = 'algo'+j;
                                 var row = $('<tr></tr>').html("<td style='text-align:center;vertical-align:middle'>" + final_json_algo[j]['match_id'] + '</td>' +
                                     "<td style='text-align:center;vertical-align:middle'>" + final_json_algo[j]['player_name'] + '</td>' +
