@@ -281,7 +281,7 @@ RD Chahar,0,0,0,0,4,0,27,3,0,Bowler,1327,800,125,608,0
     final_json = json.loads(json_data)
 
     for j in final_json:
-        player = Player(player_id=j['player_id'], match_id=j['match_id'], player_name=j['player_name'],
+        player = Player(player_id=j['player_id'], match_id=int(j['match_id']), player_name=j['player_name'],
                         value_per_share=j['value_per_share'], balls_faced=j['balls_faced'],
                         runs_scored=j['runs_scored'], fours=j['fours'], sixes=j['sixes'], overs=j['overs'],
                         maidens=j['maidens'], runs_conceded=j['runs_conceded'], dot_balls=j['dot_balls'],
