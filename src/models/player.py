@@ -52,6 +52,8 @@ class Player(object):
             "balls_bowled": self.balls_bowled,
             "maidens": self.maidens,
             "wkts_taken": self.wkts_taken,
+            "fours": self.fours,
+            "sixes": self.sixes,
             "dot_balls": self.dot_balls,
             "catches_taken": self.catches_taken,
             "run_outs": self.run_outs,

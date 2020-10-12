@@ -258,7 +258,10 @@ def convert_csv(user_id, match_id):
 
     Database.delete_from_mongo(collection='player', query={'match_id': 1327})
 
-    csv_string = """player_name,runs_scored,balls_faced,fours,sixes,overs,maidens,runs_conceded,dot_balls,wkts_taken,player_profile,match_id,value_per_share,max_share_cap,player_id,out\nPP Shaw,4,3,1,0,0,0,0,0,0,Batsman,1327,800,125,312,1\nS Dhawan,69,52,6,1,0,0,0,0,0,Batsman,1327,900,110,300,1\nAM Rahane,15,15,3,0,0,0,0,0,0,Batsman,1327,600,165,310,1
+    csv_string = """player_name,runs_scored,balls_faced,fours,sixes,overs,maidens,runs_conceded,dot_balls,wkts_taken,player_profile,match_id,value_per_share,max_share_cap,player_id,out
+PP Shaw,4,3,1,0,0,0,0,0,0,Batsman,1327,800,125,312,1
+S Dhawan,69,52,6,1,0,0,0,0,0,Batsman,1327,900,110,300,1
+AM Rahane,15,15,3,0,0,0,0,0,0,Batsman,1327,600,165,310,1
 SS Iyer,42,33,5,0,0,0,0,0,0,Batsman,1327,900,110,303,1
 MP Stoinis,13,8,2,0,3,0,31,2,1,Batsman,1327,900,110,113,0
 AT Carey,14,9,0,0,0,0,0,0,0,Wicket keeper,1327,600,165,308,1
