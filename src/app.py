@@ -256,30 +256,31 @@ def user_algorithm_comp_beaters(user_id, match_id):
 def convert_csv(user_id, match_id):
     user = User.get_by_id(user_id)
 
-    Database.delete_from_mongo(collection='player', query={'match_id': 1328})
+    Database.delete_from_mongo(collection='player', query={'match_id': 1329})
 
     csv_string = """player_name,runs_scored,balls_faced,fours,sixes,overs,maidens,runs_conceded,dot_balls,wkts_taken,player_profile,match_id,value_per_share,max_share_cap,player_id,out
-AJ Finch,47,37,4,1,0,0,0,0,0,Batsman,1328,800,125,102,1
-D Padikkal,32,23,4,1,0,0,0,0,0,Batsman,1328,700,140,114,1
-V Kohli,33,28,1,0,0,0,0,0,0,Batsman,1328,900,110,101,0
-AB de Villiers,73,33,5,6,0,0,0,0,0,Batsman,1328,1000,100,100,0
-T Banton,8,12,0,0,0,0,0,0,0,Wicket keeper,1328,600,165,515,1
-Shubman Gill,34,25,3,1,0,0,0,0,0,Batsman,1328,700,140,505,1
-N Rana,9,14,1,0,0,0,0,0,0,Batsman,1328,800,125,504,1
-EJG Morgan,8,12,1,0,0,0,0,0,0,Batsman,1328,800,125,503,1
-KD Karthik,1,2,0,0,0,0,0,0,0,Wicket keeper,1328,900,110,502,1
-AD Russell,16,10,2,1,4,0,51,7,1,All rounder,1328,1000,100,523,1
-RA Tripathi,16,22,1,0,0,0,0,0,0,Batsman,1328,600,165,509,1
-PJ Cummins,1,3,0,0,4,0,38,11,0,Bowler,1328,1000,100,501,1
-KL Nagarkoti,4,7,0,0,4,0,36,4,0,Bowler,1328,600,165,518,1
-CV Varun,7,10,0,0,4,0,25,8,0,Bowler,1328,600,165,516,0
-M Prasidh Krishna,2,3,0,0,4,0,42,5,1,Bowler,1328,600,165,510,0
-CH Morris,0,0,0,0,4,0,17,10,2,All rounder,1328,700,140,104,0
-NA Saini,0,0,0,0,3,0,17,8,1,Bowler,1328,800,125,105,0
-Mohammed Siraj,0,0,0,0,3,0,24,9,1,Bowler,1328,600,165,110,0
-Washington Sundar,0,0,0,0,4,0,20,8,2,Bowler,1328,700,140,111,0
-YS Chahal,0,0,0,0,4,0,12,13,1,Bowler,1328,900,110,103,0
-I Udana,0,0,0,0,2,0,19,4,1,All rounder,1328,600,165,116,0
+SM Curran,31,21,3,2,3,0,18,11,1,All rounder,1329,800,125,210,1
+F du Plessis,0,1,0,0,0,0,0,0,0,Batsman,1329,900,110,206,1
+SR Watson,42,38,1,3,0,0,0,0,0,All rounder,1329,800,125,205,1
+AT Rayudu,41,34,3,2,0,0,0,0,0,Batsman,1329,800,125,208,1
+MS Dhoni,21,13,2,1,0,0,0,0,0,Wicket keeper,1329,1000,100,200,1
+RA Jadeja,25,10,3,1,3,0,21,5,1,All rounder,1329,900,110,201,0
+DJ Bravo,0,1,0,0,3,0,25,8,2,All rounder,1329,800,125,204,1
+DL Chahar,2,2,0,0,4,0,28,8,0,Bowler,1329,800,125,207,0
+DA Warner,9,13,0,0,0,0,0,0,0,Batsman,1329,900,110,400,1
+JM Bairstow,23,24,2,0,0,0,0,0,0,Wicket keeper,1329,1000,100,403,1
+MK Pandey,4,3,1,0,0,0,0,0,0,Batsman,1329,800,125,405,1
+KS Williamson,57,39,7,0,0,0,0,0,0,Batsman,1329,900,110,402,1
+PK Garg,16,18,1,0,0,0,0,0,0,Batsman,1329,600,165,415,1
+V Shankar,12,7,0,1,0,0,0,0,0,All rounder,1329,600,165,410,1
+Rashid Khan,14,8,1,1,4,0,30,10,0,Bowler,1329,900,110,401,1
+S Nadeem,5,5,1,0,4,0,29,7,0,Bowler,1329,600,165,414,1
+Sandeep Sharma,1,2,0,0,4,0,19,13,2,Bowler,1329,700,140,411,0
+T Natarajan,0,1,0,0,4,0,41,7,2,Bowler,1329,500,200,422,0
+SN Thakur,0,0,0,0,2,0,10,4,1,Bowler,1329,600,165,212,0
+KV Sharma,0,0,0,0,4,0,37,5,2,Bowler,1329,600,165,217,0
+PP Chawla,0,0,0,0,1,0,8,0,0,Bowler,1329,700,140,211,0
+KK Ahmed,0,0,0,0,4,0,45,10,2,Bowler,1329,600,165,408,0
 """
     reader = csv.DictReader(StringIO(csv_string))
     json_data = json.dumps(list(reader))
